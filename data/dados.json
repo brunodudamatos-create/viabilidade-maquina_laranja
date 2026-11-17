@@ -1,0 +1,155 @@
+{
+  "versao": "1.0",
+  "atualizado": "2026-11-16",
+  "autor": "Bruno Duda Dantas Matos",
+  "aviso": "Estudo de viabilidade. Valores 'baixa' são estimativas a confirmar com orçamento, medição na máquina ou pesquisa de campo. Não há dados internos de empresas neste arquivo.",
+  "parametros": [
+    {
+      "id": "preco_laranja_kg",
+      "nome": "Preço da laranja pêra",
+      "unidade": "R$/kg",
+      "min": 1.5, "moda": 2.0, "max": 2.8,
+      "fonte": "Agrolink – cotação CEASA-MT Cuiabá (R$ 2,00 em 21/07/2026; R$ 2,22 em 05/07; R$ 2,50 em jun)",
+      "url": "https://www.agrolink.com.br/cotacoes/ceasa/frutas/laranja",
+      "data": "2026-07-22",
+      "confianca": "media",
+      "nota": "Fonte boa, mas com 4 meses de defasagem. O mínimo cobre um possível preço de compra em volume (a confirmar)."
+    },
+    {
+      "id": "rendimento_kg_l",
+      "nome": "Laranja necessária por litro de suco",
+      "unidade": "kg/L",
+      "min": 1.9, "moda": 2.2, "max": 2.8,
+      "fonte": "Cálculo: embalagem Natural One (180 ml = 2,5 laranjas) e fruta de ~160 g (Fundecitrus, safra 2026/27)",
+      "url": "https://www.fundecitrus.com.br/wp-content/uploads/2026/05/2026_05_08_Sumario_executivo_estimativa_da_safra_2026-2027.pdf",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Só a máquina real confirma. Medir em um dia de teste."
+    },
+    {
+      "id": "perda_fruta",
+      "nome": "Perda de fruta (casca ruim, estrago, sobra)",
+      "unidade": "fração",
+      "min": 0.05, "moda": 0.12, "max": 0.20,
+      "fonte": "Estimativa do estudo",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Sem dado público. Medir no piloto."
+    },
+    {
+      "id": "garrafa_un",
+      "nome": "Garrafa PET 1 L com tampa e lacre",
+      "unidade": "R$/un",
+      "min": 2.33, "moda": 2.8, "max": 3.53,
+      "fonte": "Mercado Livre e Shopee (R$ 2,33 por unidade no pacote de 200; R$ 3,53 no de 50)",
+      "url": "https://lista.mercadolivre.com.br/garrafa-plastica-1-litro-descartavel-leite",
+      "data": "2026-11-16",
+      "confianca": "media",
+      "nota": "Preço de marketplace. Pedir orçamento a fornecedor de embalagens."
+    },
+    {
+      "id": "rotulo_un",
+      "nome": "Rótulo adesivo",
+      "unidade": "R$/un",
+      "min": 0.15, "moda": 0.30, "max": 0.50,
+      "fonte": "Estimativa do estudo (não encontrei preço em reais)",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Pedir orçamento a uma gráfica de Cuiabá. O rótulo legal tem informações obrigatórias."
+    },
+    {
+      "id": "insumos_l",
+      "nome": "Água, energia e produtos de limpeza",
+      "unidade": "R$/L",
+      "min": 0.3, "moda": 0.5, "max": 1.0,
+      "fonte": "Estimativa do estudo",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Sem dado. Medir o consumo no piloto."
+    },
+    {
+      "id": "custo_func_mes",
+      "nome": "Custo mensal de um auxiliar (com encargos)",
+      "unidade": "R$/mês",
+      "min": 2900, "moda": 3150, "max": 3400,
+      "fonte": "Portal Salário/CAGED: salário médio de auxiliar de serviços de alimentação em MT é R$ 1.706; encargos estimados pelo estudo",
+      "url": "https://www.salario.com.br/empresas/restaurantes-e-similares/mt-5611201",
+      "data": "2026-06-30",
+      "confianca": "media",
+      "nota": "Dado do setor de restaurantes em MT, não de Cuiabá nem de suco."
+    },
+    {
+      "id": "treinamento_unico",
+      "nome": "Treinamento (custo único)",
+      "unidade": "R$",
+      "min": 500, "moda": 800, "max": 1500,
+      "fonte": "Estimativa do estudo (boas práticas de manipulação, higienização, operação da máquina)",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Diluído em 12 meses no regime. Entra inteiro no mês 1."
+    },
+    {
+      "id": "fixos_mes",
+      "nome": "Custos fixos diversos (contador, licenças, manutenção)",
+      "unidade": "R$/mês",
+      "min": 150, "moda": 300, "max": 600,
+      "fonte": "Estimativa do estudo",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Confirmar CNAE, alvará sanitário e registro no MAPA com contador e Vigilância Sanitária."
+    },
+    {
+      "id": "imposto",
+      "nome": "Imposto sobre a receita",
+      "unidade": "fração",
+      "min": 0.0, "moda": 0.04, "max": 0.08,
+      "fonte": "Estimativa do estudo",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Depende do enquadramento da empresa. Confirmar com contador."
+    },
+    {
+      "id": "fator_demanda",
+      "nome": "Demanda realizada ÷ demanda planejada",
+      "unidade": "fator",
+      "min": 0.5, "moda": 1.0, "max": 1.4,
+      "fonte": "Premissa do estudo (representa a incerteza de vender o volume planejado)",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "É a incerteza principal. O teste de pré-venda existe para estreitar esta faixa."
+    }
+  ],
+  "referencias_preco_venda": {
+    "nome": "Preço de venda de 1 L de suco natural",
+    "unidade": "R$/L",
+    "faixa_padrao": [15, 19, 24],
+    "fonte": "99Food: Goiânia R$ 17 (e R$ 24 em outro local), Salvador R$ 17, Recife R$ 25, São Paulo R$ 21 a 35. Industrializado refrigerado: Natural One 900 ml R$ 14,99",
+    "url": "https://99app.com/99food/goiania/laranjas-sucos-naturais/5764608485476795920/",
+    "data": "2026-11-16",
+    "confianca": "baixa",
+    "nota": "Nenhum preço de Cuiabá encontrado. O simulador permite mudar o preço."
+  },
+  "premissas_fixas": {
+    "capacidade_func_dia_litros": 60,
+    "mes1_fator_volume": 0.7,
+    "mes1_perda_extra": 0.08,
+    "variacao_preco_venda": 0.15,
+    "nota_capacidade": "Premissa do estudo (sem dado da máquina). Confirmar o modelo e a capacidade real."
+  },
+  "lacunas": [
+    "Sem preço de venda nem concorrentes de Cuiabá: precisa de visita e pesquisa de campo.",
+    "Rendimento (kg por litro) e perdas não medidos na máquina real.",
+    "Preço da laranja é de julho de 2026; falta atualizar a cotação de novembro.",
+    "Preço de compra real da laranja em volume não está neste site (dado interno).",
+    "Custo de mão de obra é média do setor de restaurantes em MT, não de Cuiabá.",
+    "Preço do rótulo adesivo em reais não foi encontrado.",
+    "Água, energia, limpeza, impostos e custos fixos são estimativas."
+  ]
+}

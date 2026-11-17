@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+  Simulador de viabilidade – suco de laranja natural (Cuiabá)
+  Autor: Bruno Duda Dantas Matos
+  Versão: v1.0 (2026-11-16)
+  Histórico de mudanças:
+    v1.0 – primeira versão: controles, lucro mensal, ponto de equilíbrio,
+           probabilidade de prejuízo, mês 1, tabela de dados com fontes.
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador de viabilidade – suco de laranja natural (Cuiabá)</title>
+  <meta name="description" content="Simulação de custo, lucro e risco de uma produção de suco de laranja natural em Cuiabá, com dados públicos e fontes.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="pagina">
+    <h1>Simulador de viabilidade: suco de laranja natural em Cuiabá</h1>
+    <p class="sub">Estudo de viabilidade com dados públicos. Mude os controles e veja custo por litro, lucro mensal e risco de prejuízo.</p>
+    <div class="aviso" role="note">
+      <strong>Atenção:</strong> vários números são estimativas (confiança <em>baixa</em>) e estão marcados na tabela de dados.
+      Este simulador <strong>não mostra se vão comprar</strong>: o volume vendido por dia é o que você escolhe, não uma previsão.
+      Não é aconselhamento financeiro ou jurídico.
+    </div>
+
+    <section class="cartao" aria-label="Controles">
+      <div class="controles">
+        <div class="controle">
+          <label for="volume">Volume vendido por dia <output id="volume-v"></output></label>
+          <input id="volume" type="range" min="5" max="150" step="5" value="20">
+        </div>
+        <div class="controle">
+          <label for="preco">Preço de venda por litro <output id="preco-v"></output></label>
+          <input id="preco" type="range" min="12" max="30" step="0.5" value="19">
+        </div>
+        <div class="controle">
+          <label for="func">Funcionários <output id="func-v"></output></label>
+          <input id="func" type="range" min="1" max="3" step="1" value="1">
+        </div>
+        <div class="controle">
+          <label for="dias">Dias de operação por mês <output id="dias-v"></output></label>
+          <input id="dias" type="range" min="15" max="30" step="1" value="26">
+        </div>
+      </div>
+      <div id="alerta-capacidade" class="alerta" hidden></div>
+    </section>
+
+    <section class="heroi" aria-live="polite">
+      <div class="rotulo">Lucro mensal (mediana)</div>
+      <div class="valor" id="heroi-lucro">–</div>
+      <div class="faixa" id="heroi-faixa"></div>
+    </section>
+
+    <section class="grade-cartoes" aria-label="Indicadores">
+      <div class="cartao"><div class="rotulo">Custo total por litro</div><div class="valor" id="k-custo">–</div><div class="faixa" id="k-custo-f"></div></div>
+      <div class="cartao"><div class="rotulo">Chance de prejuízo no mês</div><div class="valor" id="k-prob">–</div><div class="faixa" id="k-prob-f"></div></div>
+      <div class="cartao"><div class="rotulo">Ponto de equilíbrio</div><div class="valor" id="k-eq">–</div><div class="faixa" id="k-eq-f"></div></div>
+      <div class="cartao"><div class="rotulo">Mês 1 (treinamento e curva de aprendizado)</div><div class="valor" id="k-mes1">–</div><div class="faixa" id="k-mes1-f"></div></div>
+    </section>
+
+    <div class="duas-colunas">
+      <section class="cartao">
+        <h2 style="margin-top:0">Lucro mensal conforme o volume diário</h2>
+        <div class="grafico" id="g-curva"></div>
+        <div class="legenda"><span><span class="chave" style="background:var(--serie)"></span>Mediana</span><span><span class="chave" style="background:var(--serie);opacity:.25"></span>Faixa de 80% dos cenários</span></div>
+        <details><summary>Ver a tabela desta curva</summary><div class="tabela-rolagem" id="t-curva"></div></details>
+      </section>
+      <section class="cartao">
+        <h2 style="margin-top:0">Distribuição do lucro neste volume</h2>
+        <div class="grafico" id="g-hist"></div>
+        <div class="legenda"><span><span class="chave" style="background:var(--serie)"></span>Lucro</span><span><span class="chave" style="background:var(--perda)"></span>Prejuízo</span></div>
+        <details><summary>Ver a tabela desta distribuição</summary><div class="tabela-rolagem" id="t-hist"></div></details>
+      </section>
+    </div>
+
+    <h2>Dados, fontes e confiança</h2>
+    <p class="sub">Cada número tem fonte, data e nível de confiança. Faixa: mínimo, mais provável e máximo.</p>
+    <section class="cartao tabela-rolagem" id="t-dados"></section>
+
+    <h2>O que ainda falta</h2>
+    <ul class="lacunas" id="lacunas"></ul>
+
+    <footer>
+      <div id="rodape-versao"></div>
+      <div>Os valores internos de compra de qualquer empresa não estão neste site. Cálculo: simulação de Monte Carlo (5.000 cenários, distribuição triangular).</div>
+    </footer>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

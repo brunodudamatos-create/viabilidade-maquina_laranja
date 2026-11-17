@@ -1,0 +1,126 @@
+/*
+ * Estilo do simulador de suco de laranja (Cuiabá)
+ * Autor: Bruno Duda Dantas Matos
+ * Versão: v1.0 (2026-11-16)
+ * Histórico: v1.0 – primeira versão (tema claro e escuro, paleta validada).
+ */
+:root {
+  color-scheme: light;
+  --plano: #f9f9f7;
+  --superficie: #fcfcfb;
+  --tinta: #0b0b0b;
+  --tinta-2: #52514e;
+  --tinta-3: #898781;
+  --grade: #e1e0d9;
+  --eixo: #c3c2b7;
+  --borda: rgba(11, 11, 11, 0.1);
+  --serie: #2a78d6;
+  --perda: #e34948;
+  --bom: #006300;
+  --aviso-fundo: #fff4d6;
+  --aviso-tinta: #5a3d00;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --plano: #0d0d0d;
+    --superficie: #1a1a19;
+    --tinta: #f0efec;
+    --tinta-2: #c3c2b7;
+    --tinta-3: #898781;
+    --grade: #2c2c2a;
+    --eixo: #383835;
+    --borda: rgba(255, 255, 255, 0.1);
+    --serie: #3987e5;
+    --perda: #e66767;
+    --bom: #0ca30c;
+    --aviso-fundo: #3a2e0c;
+    --aviso-tinta: #f3d58a;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--plano);
+  color: var(--tinta);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.pagina { max-width: 1040px; margin: 0 auto; padding: 20px 16px 48px; }
+h1 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 4px; }
+h2 { font-size: 1.1rem; margin: 32px 0 12px; }
+.sub { color: var(--tinta-2); margin: 0 0 16px; }
+.aviso {
+  background: var(--aviso-fundo);
+  color: var(--aviso-tinta);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  margin: 12px 0;
+}
+.aviso strong { font-weight: 700; }
+.cartao {
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 16px;
+}
+.controles { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.controle label { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--tinta-2); }
+.controle output { color: var(--tinta); font-weight: 600; }
+.controle input[type="range"] { width: 100%; margin: 8px 0 0; accent-color: var(--serie); }
+.heroi { margin: 20px 0 8px; }
+.heroi .rotulo { color: var(--tinta-2); font-size: 0.9rem; }
+.heroi .valor { font-size: 3rem; line-height: 1.1; font-weight: 700; }
+.heroi .faixa { color: var(--tinta-2); font-size: 0.95rem; }
+.valor.negativo { color: var(--perda); }
+.grade-cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin: 12px 0 20px; }
+.cartao .rotulo { color: var(--tinta-2); font-size: 0.85rem; }
+.cartao .valor { font-size: 1.5rem; font-weight: 650; margin: 2px 0; }
+.cartao .faixa { color: var(--tinta-3); font-size: 0.8rem; }
+.alerta { color: var(--perda); font-weight: 600; font-size: 0.9rem; margin-top: 8px; }
+.grafico { position: relative; }
+.grafico svg { width: 100%; height: auto; display: block; overflow: visible; }
+.grafico text { fill: var(--tinta-3); font-size: 11px; font-family: inherit; }
+.grafico .tit-eixo { fill: var(--tinta-2); }
+.grafico .grade-linha { stroke: var(--grade); stroke-width: 1; }
+.grafico .eixo-linha { stroke: var(--eixo); stroke-width: 1; }
+.grafico .linha-serie { fill: none; stroke: var(--serie); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.grafico .faixa-serie { fill: var(--serie); opacity: 0.12; }
+.grafico .marca { fill: var(--serie); stroke: var(--superficie); stroke-width: 2; }
+.grafico .guia { stroke: var(--tinta-3); stroke-width: 1; }
+.grafico .barra-lucro { fill: var(--serie); }
+.grafico .barra-perda { fill: var(--perda); }
+.dica {
+  position: absolute; pointer-events: none; z-index: 5;
+  background: var(--superficie); color: var(--tinta);
+  border: 1px solid var(--borda); border-radius: 8px;
+  padding: 6px 10px; font-size: 0.8rem; line-height: 1.4;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  white-space: nowrap; display: none;
+}
+.legenda { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.85rem; color: var(--tinta-2); margin: 8px 0 0; }
+.legenda .chave { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+.duas-colunas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.tabela-rolagem { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--grade); vertical-align: top; }
+th { color: var(--tinta-2); font-weight: 600; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.conf { font-weight: 600; white-space: nowrap; }
+.conf.alta { color: var(--bom); }
+.conf.media { color: var(--tinta); }
+.conf.baixa { color: var(--perda); }
+details { margin-top: 12px; }
+summary { cursor: pointer; color: var(--tinta-2); }
+ul.lacunas { padding-left: 20px; color: var(--tinta-2); }
+a { color: var(--serie); }
+footer { margin-top: 40px; color: var(--tinta-3); font-size: 0.8rem; }
+@media (max-width: 520px) {
+  .heroi .valor { font-size: 2.4rem; }
+  h1 { font-size: 1.25rem; }
+}
+@media (forced-colors: active) {
+  .grafico .barra-perda { fill: CanvasText; }
+  .grafico .faixa-serie { opacity: 0.3; }
+}
