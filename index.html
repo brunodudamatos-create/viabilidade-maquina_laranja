@@ -2,8 +2,11 @@
 <!--
   Simulador de viabilidade – suco de laranja natural (Cuiabá)
   Autor: Bruno Duda Dantas Matos
-  Versão: v1.0 (2026-11-16)
+  Versão: v2.0 (2026-11-16)
   Histórico de mudanças:
+    v2.0 – funil de pontos de venda, mix de tamanhos (300 ml, 500 ml, 1 L),
+           VPL, TIR, payback descontado, exposição de caixa, tornado, margem do
+           ponto, métodos e referências.
     v1.0 – primeira versão: controles, lucro mensal, ponto de equilíbrio,
            probabilidade de prejuízo, mês 1, tabela de dados com fontes.
 -->
@@ -12,79 +15,128 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Simulador de viabilidade – suco de laranja natural (Cuiabá)</title>
-  <meta name="description" content="Simulação de custo, lucro e risco de uma produção de suco de laranja natural em Cuiabá, com dados públicos e fontes.">
+  <meta name="description" content="Quantos pontos de venda e quantas garrafas são necessários para o suco de laranja natural se pagar em Cuiabá: simulação de risco (Monte Carlo), VPL, TIR e payback, com dados públicos e fontes.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="pagina">
     <h1>Simulador de viabilidade: suco de laranja natural em Cuiabá</h1>
-    <p class="sub">Estudo de viabilidade com dados públicos. Mude os controles e veja custo por litro, lucro mensal e risco de prejuízo.</p>
+    <p class="sub">Quantos pontos de venda e quantas garrafas precisam existir para o negócio se pagar. Método: análise de risco de Hertz (Monte Carlo sobre o VPL), com sensibilidade em tornado.</p>
     <div class="aviso" role="note">
-      <strong>Atenção:</strong> vários números são estimativas (confiança <em>baixa</em>) e estão marcados na tabela de dados.
-      Este simulador <strong>não mostra se vão comprar</strong>: o volume vendido por dia é o que você escolhe, não uma previsão.
+      <strong>Atenção:</strong> giro por ponto, mix de tamanhos, margem do ponto, taxa de fechamento e vários custos são
+      <strong>premissas sem dado</strong> (confiança <em>baixa</em>) e estão marcados na tabela de dados.
+      O simulador mostra o que precisa ser verdade para o negócio dar certo; <strong>não prevê se vão comprar</strong>.
       Não é aconselhamento financeiro ou jurídico.
     </div>
 
     <section class="cartao" aria-label="Controles">
       <div class="controles">
         <div class="controle">
-          <label for="volume">Volume vendido por dia <output id="volume-v"></output></label>
-          <input id="volume" type="range" min="5" max="150" step="5" value="20">
+          <label for="pontos">Pontos de venda atendidos <output id="pontos-v"></output></label>
+          <input id="pontos" type="range" min="2" max="150" step="1" value="30">
         </div>
         <div class="controle">
-          <label for="preco">Preço de venda por litro <output id="preco-v"></output></label>
-          <input id="preco" type="range" min="12" max="30" step="0.5" value="19">
-        </div>
-        <div class="controle">
-          <label for="func">Funcionários <output id="func-v"></output></label>
+          <label for="func">Equipe mínima <output id="func-v"></output></label>
           <input id="func" type="range" min="1" max="3" step="1" value="1">
         </div>
         <div class="controle">
           <label for="dias">Dias de operação por mês <output id="dias-v"></output></label>
           <input id="dias" type="range" min="15" max="30" step="1" value="26">
         </div>
+        <div class="controle">
+          <label for="tma">Retorno exigido (TMA) <output id="tma-v"></output></label>
+          <input id="tma" type="range" min="10" max="35" step="0.25" value="13.75">
+        </div>
+        <div class="controle">
+          <label for="hor">Horizonte da análise <output id="hor-v"></output></label>
+          <input id="hor" type="range" min="12" max="36" step="6" value="24">
+        </div>
+        <div class="controle">
+          <label for="margem">Quanto o ponto fica do preço <output id="margem-v"></output></label>
+          <input id="margem" type="range" min="0" max="50" step="5" value="35" disabled>
+          <label class="marcar"><input id="margem-faixa" type="checkbox" checked> usar a faixa do estudo (25% a 45%)</label>
+        </div>
       </div>
-      <div id="alerta-capacidade" class="alerta" hidden></div>
+      <div id="info-equipe" class="info"></div>
     </section>
 
     <section class="heroi" aria-live="polite">
-      <div class="rotulo">Lucro mensal (mediana)</div>
-      <div class="valor" id="heroi-lucro">–</div>
+      <div class="rotulo" id="heroi-rotulo">VPL</div>
+      <div class="valor" id="heroi-vpl">–</div>
       <div class="faixa" id="heroi-faixa"></div>
+      <div class="leitura" id="heroi-leitura"></div>
     </section>
 
-    <section class="grade-cartoes" aria-label="Indicadores">
-      <div class="cartao"><div class="rotulo">Custo total por litro</div><div class="valor" id="k-custo">–</div><div class="faixa" id="k-custo-f"></div></div>
-      <div class="cartao"><div class="rotulo">Chance de prejuízo no mês</div><div class="valor" id="k-prob">–</div><div class="faixa" id="k-prob-f"></div></div>
-      <div class="cartao"><div class="rotulo">Ponto de equilíbrio</div><div class="valor" id="k-eq">–</div><div class="faixa" id="k-eq-f"></div></div>
-      <div class="cartao"><div class="rotulo">Mês 1 (treinamento e curva de aprendizado)</div><div class="valor" id="k-mes1">–</div><div class="faixa" id="k-mes1-f"></div></div>
+    <h2>Quantos pontos, garrafas e contatos</h2>
+    <section class="grade-cartoes" aria-label="Respostas diretas">
+      <div class="cartao"><div class="rotulo">Pontos de venda mínimos (lucro mensal ≥ 0)</div><div class="valor" id="k-pontos">–</div><div class="faixa" id="k-pontos-f"></div></div>
+      <div class="cartao"><div class="rotulo">Garrafas por dia no equilíbrio</div><div class="valor" id="k-garrafas">–</div><div class="faixa" id="k-garrafas-f"></div></div>
+      <div class="cartao"><div class="rotulo">Contatos de prospecção necessários</div><div class="valor" id="k-contatos">–</div><div class="faixa" id="k-contatos-f"></div></div>
+    </section>
+
+    <h2>Retorno do investimento</h2>
+    <section class="grade-cartoes" aria-label="Indicadores de retorno">
+      <div class="cartao"><div class="rotulo">Chance de VPL negativo</div><div class="valor" id="k-vplneg">–</div><div class="faixa" id="k-vplneg-f"></div></div>
+      <div class="cartao"><div class="rotulo">Payback descontado</div><div class="valor" id="k-payback">–</div><div class="faixa" id="k-payback-f"></div></div>
+      <div class="cartao"><div class="rotulo">TIR</div><div class="valor" id="k-tir">–</div><div class="faixa" id="k-tir-f"></div></div>
+      <div class="cartao"><div class="rotulo">Exposição máxima de caixa</div><div class="valor" id="k-exp">–</div><div class="faixa" id="k-exp-f"></div></div>
+      <div class="cartao"><div class="rotulo">Lucro mensal em regime</div><div class="valor" id="k-regime">–</div><div class="faixa" id="k-regime-f"></div></div>
+      <div class="cartao"><div class="rotulo">Mês 1 (curva de aprendizado)</div><div class="valor" id="k-mes1">–</div><div class="faixa" id="k-mes1-f"></div></div>
+      <div class="cartao"><div class="rotulo">Investimento inicial</div><div class="valor" id="k-inv">–</div><div class="faixa" id="k-inv-f"></div></div>
+    </section>
+
+    <h2>Qual tamanho vende mais (premissa, não dado)</h2>
+    <p class="sub">Os pesos de 300 ml, 500 ml e 1 L são palpites com faixa larga. Só um teste em poucos pontos de venda mostra o mix real.</p>
+    <section class="cartao tabela-rolagem" id="t-mix"></section>
+
+    <h2>O que mais pesa no resultado</h2>
+    <section class="cartao">
+      <div class="grafico" id="g-tornado"></div>
+      <div class="legenda"><span><span class="chave" style="background:var(--serie)"></span>VPL quando a entrada vai do mínimo ao máximo, com as demais no valor mais provável</span></div>
+      <details><summary>Ver a tabela do tornado</summary><div class="tabela-rolagem" id="t-tornado"></div></details>
     </section>
 
     <div class="duas-colunas">
       <section class="cartao">
-        <h2 style="margin-top:0">Lucro mensal conforme o volume diário</h2>
-        <div class="grafico" id="g-curva"></div>
+        <h2 style="margin-top:0">VPL conforme os pontos de venda</h2>
+        <div class="grafico" id="g-curva"><div class="calculando">Calculando…</div></div>
         <div class="legenda"><span><span class="chave" style="background:var(--serie)"></span>Mediana</span><span><span class="chave" style="background:var(--serie);opacity:.25"></span>Faixa de 80% dos cenários</span></div>
+        <p class="leitura" id="curva-leitura"></p>
         <details><summary>Ver a tabela desta curva</summary><div class="tabela-rolagem" id="t-curva"></div></details>
       </section>
       <section class="cartao">
-        <h2 style="margin-top:0">Distribuição do lucro neste volume</h2>
+        <h2 style="margin-top:0">Distribuição do VPL nesta configuração</h2>
         <div class="grafico" id="g-hist"></div>
-        <div class="legenda"><span><span class="chave" style="background:var(--serie)"></span>Lucro</span><span><span class="chave" style="background:var(--perda)"></span>Prejuízo</span></div>
+        <div class="legenda"><span><span class="chave" style="background:var(--serie)"></span>VPL positivo</span><span><span class="chave" style="background:var(--perda)"></span>VPL negativo</span></div>
         <details><summary>Ver a tabela desta distribuição</summary><div class="tabela-rolagem" id="t-hist"></div></details>
       </section>
     </div>
 
+    <h2>Quanto o ponto de venda fica do preço muda tudo</h2>
+    <p class="sub">Mesmo número de pontos e as demais premissas; só muda a margem que o ponto retém.</p>
+    <section class="cartao tabela-rolagem" id="t-margens"><div class="calculando">Calculando…</div></section>
+
+    <h2>VPL conforme o retorno exigido</h2>
+    <section class="cartao tabela-rolagem" id="t-tma"></section>
+    <p class="sub" id="nota-fin"></p>
+
     <h2>Dados, fontes e confiança</h2>
     <p class="sub">Cada número tem fonte, data e nível de confiança. Faixa: mínimo, mais provável e máximo.</p>
     <section class="cartao tabela-rolagem" id="t-dados"></section>
+
+    <h2>Preços de varejo observados</h2>
+    <section class="cartao tabela-rolagem" id="t-varejo"></section>
+
+    <h2>Método</h2>
+    <ul class="lacunas" id="lista-metodos"></ul>
+    <p class="sub">Limites: entradas sorteadas de forma independente, valor residual zero, TIR pouco confiável com investimento baixo, e o resultado vale o que valem os dados de entrada.</p>
 
     <h2>O que ainda falta</h2>
     <ul class="lacunas" id="lacunas"></ul>
 
     <footer>
       <div id="rodape-versao"></div>
-      <div>Os valores internos de compra de qualquer empresa não estão neste site. Cálculo: simulação de Monte Carlo (5.000 cenários, distribuição triangular).</div>
+      <div>Os valores internos de compra de qualquer empresa não estão neste site. Cálculo: simulação de Monte Carlo (3.000 cenários, distribuição triangular), semente fixa para o resultado ser reproduzível.</div>
     </footer>
   </main>
   <script type="module" src="app.js"></script>

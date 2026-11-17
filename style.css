@@ -1,8 +1,10 @@
 /*
  * Estilo do simulador de suco de laranja (Cuiabá)
  * Autor: Bruno Duda Dantas Matos
- * Versão: v1.0 (2026-11-16)
- * Histórico: v1.0 – primeira versão (tema claro e escuro, paleta validada).
+ * Versão: v2.0 (2026-11-16)
+ * Histórico:
+ *   v2.0 – tornado, texto de leitura, informação de equipe, caixa de seleção da margem.
+ *   v1.0 – primeira versão (tema claro e escuro, paleta validada).
  */
 :root {
   color-scheme: light;
@@ -91,6 +93,13 @@ h2 { font-size: 1.1rem; margin: 32px 0 12px; }
 .grafico .guia { stroke: var(--tinta-3); stroke-width: 1; }
 .grafico .barra-lucro { fill: var(--serie); }
 .grafico .barra-perda { fill: var(--perda); }
+.grafico .barra-torn { fill: var(--serie); }
+.calculando { color: var(--tinta-3); font-size: 0.9rem; padding: 24px 0; }
+.leitura { color: var(--tinta-2); font-size: 0.9rem; margin: 6px 0 0; }
+.info { color: var(--tinta-2); font-size: 0.85rem; margin-top: 12px; }
+.controle label.marcar { justify-content: flex-start; gap: 6px; margin-top: 6px; font-size: 0.8rem; }
+.controle label.marcar input { accent-color: var(--serie); }
+.controle input[type="range"]:disabled { opacity: 0.45; }
 .dica {
   position: absolute; pointer-events: none; z-index: 5;
   background: var(--superficie); color: var(--tinta);

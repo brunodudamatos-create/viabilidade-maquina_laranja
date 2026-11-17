@@ -1,11 +1,11 @@
 {
-  "versao": "1.0",
+  "versao": "2.0",
   "atualizado": "2026-11-16",
   "autor": "Bruno Duda Dantas Matos",
-  "aviso": "Estudo de viabilidade. Valores 'baixa' são estimativas a confirmar com orçamento, medição na máquina ou pesquisa de campo. Não há dados internos de empresas neste arquivo.",
+  "aviso": "Estudo de viabilidade. Valores 'baixa' são estimativas a confirmar com orçamento, medição na máquina ou pesquisa de campo. Não há dados internos de empresas neste arquivo. Histórico: v2.0 (2026-11-16) – funil de pontos de venda, mix de tamanhos, validade, entrega, VPL/TIR/payback; v1.0 – primeira versão.",
   "parametros": [
     {
-      "id": "preco_laranja_kg",
+      "id": "preco_laranja_kg", "curto": "Preço da laranja",
       "nome": "Preço da laranja pêra",
       "unidade": "R$/kg",
       "min": 1.5, "moda": 2.0, "max": 2.8,
@@ -16,7 +16,7 @@
       "nota": "Fonte boa, mas com 4 meses de defasagem. O mínimo cobre um possível preço de compra em volume (a confirmar)."
     },
     {
-      "id": "rendimento_kg_l",
+      "id": "rendimento_kg_l", "curto": "Rendimento (kg/L)",
       "nome": "Laranja necessária por litro de suco",
       "unidade": "kg/L",
       "min": 1.9, "moda": 2.2, "max": 2.8,
@@ -27,7 +27,7 @@
       "nota": "Só a máquina real confirma. Medir em um dia de teste."
     },
     {
-      "id": "perda_fruta",
+      "id": "perda_fruta", "curto": "Perda de fruta",
       "nome": "Perda de fruta (casca ruim, estrago, sobra)",
       "unidade": "fração",
       "min": 0.05, "moda": 0.12, "max": 0.20,
@@ -38,7 +38,29 @@
       "nota": "Sem dado público. Medir no piloto."
     },
     {
-      "id": "garrafa_un",
+      "id": "garrafa_300", "curto": "Garrafa 300 ml",
+      "nome": "Garrafa PET 300 ml com tampa e lacre",
+      "unidade": "R$/un",
+      "min": 1.2, "moda": 1.6, "max": 2.2,
+      "fonte": "Estimativa do estudo, proporcional à garrafa de 1 L (há kits de garrafa de 300 ml no Mercado Livre, preço não capturado)",
+      "url": "https://lista.mercadolivre.com.br/garrafinhas-de-plastico-250ml-para-suco",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Pedir orçamento a fornecedor de embalagens."
+    },
+    {
+      "id": "garrafa_500", "curto": "Garrafa 500 ml",
+      "nome": "Garrafa PET 500 ml com tampa e lacre",
+      "unidade": "R$/un",
+      "min": 1.6, "moda": 2.0, "max": 2.8,
+      "fonte": "Estimativa do estudo, proporcional à garrafa de 1 L (há kits de 50 garrafas de 500 ml no Mercado Livre, preço não capturado)",
+      "url": "https://www.mercadolivre.com.br/pagina/qualiplastfabri",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Pedir orçamento a fornecedor de embalagens."
+    },
+    {
+      "id": "garrafa_1000", "curto": "Garrafa 1 L",
       "nome": "Garrafa PET 1 L com tampa e lacre",
       "unidade": "R$/un",
       "min": 2.33, "moda": 2.8, "max": 3.53,
@@ -49,8 +71,8 @@
       "nota": "Preço de marketplace. Pedir orçamento a fornecedor de embalagens."
     },
     {
-      "id": "rotulo_un",
-      "nome": "Rótulo adesivo",
+      "id": "rotulo_un", "curto": "Rótulo",
+      "nome": "Rótulo adesivo (qualquer tamanho)",
       "unidade": "R$/un",
       "min": 0.15, "moda": 0.30, "max": 0.50,
       "fonte": "Estimativa do estudo (não encontrei preço em reais)",
@@ -60,7 +82,7 @@
       "nota": "Pedir orçamento a uma gráfica de Cuiabá. O rótulo legal tem informações obrigatórias."
     },
     {
-      "id": "insumos_l",
+      "id": "insumos_l", "curto": "Água, energia, limpeza",
       "nome": "Água, energia e produtos de limpeza",
       "unidade": "R$/L",
       "min": 0.3, "moda": 0.5, "max": 1.0,
@@ -71,7 +93,7 @@
       "nota": "Sem dado. Medir o consumo no piloto."
     },
     {
-      "id": "custo_func_mes",
+      "id": "custo_func_mes", "curto": "Custo do funcionário",
       "nome": "Custo mensal de um auxiliar (com encargos)",
       "unidade": "R$/mês",
       "min": 2900, "moda": 3150, "max": 3400,
@@ -82,18 +104,29 @@
       "nota": "Dado do setor de restaurantes em MT, não de Cuiabá nem de suco."
     },
     {
-      "id": "treinamento_unico",
-      "nome": "Treinamento (custo único)",
+      "id": "treinamento_unico", "curto": "Treinamento",
+      "nome": "Treinamento (custo único, antes de começar)",
       "unidade": "R$",
       "min": 500, "moda": 800, "max": 1500,
       "fonte": "Estimativa do estudo (boas práticas de manipulação, higienização, operação da máquina)",
       "url": "",
       "data": "2026-11-16",
       "confianca": "baixa",
-      "nota": "Diluído em 12 meses no regime. Entra inteiro no mês 1."
+      "nota": "Entra no investimento inicial (mês 0)."
     },
     {
-      "id": "fixos_mes",
+      "id": "investimento_outros", "curto": "Investimento inicial",
+      "nome": "Investimento inicial além do treinamento (licenças, adequações, arte do rótulo, estoque inicial de embalagem e capital de giro)",
+      "unidade": "R$",
+      "min": 3000, "moda": 7000, "max": 15000,
+      "fonte": "Estimativa do estudo (a máquina e a câmara fria já existem e não entram)",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Sem este valor o VPL e a TIR perdem sentido. Confirmar licenças com contador e Vigilância Sanitária e pedir orçamentos."
+    },
+    {
+      "id": "fixos_mes", "curto": "Custos fixos",
       "nome": "Custos fixos diversos (contador, licenças, manutenção)",
       "unidade": "R$/mês",
       "min": 150, "moda": 300, "max": 600,
@@ -104,7 +137,7 @@
       "nota": "Confirmar CNAE, alvará sanitário e registro no MAPA com contador e Vigilância Sanitária."
     },
     {
-      "id": "imposto",
+      "id": "imposto", "curto": "Imposto",
       "nome": "Imposto sobre a receita",
       "unidade": "fração",
       "min": 0.0, "moda": 0.04, "max": 0.08,
@@ -115,41 +148,180 @@
       "nota": "Depende do enquadramento da empresa. Confirmar com contador."
     },
     {
-      "id": "fator_demanda",
-      "nome": "Demanda realizada ÷ demanda planejada",
-      "unidade": "fator",
-      "min": 0.5, "moda": 1.0, "max": 1.4,
-      "fonte": "Premissa do estudo (representa a incerteza de vender o volume planejado)",
+      "id": "giro_garrafas_dia", "curto": "Giro por ponto",
+      "nome": "Giro: garrafas vendidas por ponto de venda por dia (todos os tamanhos)",
+      "unidade": "garrafas/ponto/dia",
+      "min": 0.8, "moda": 2.5, "max": 6.0,
+      "fonte": "Premissa do estudo (não existe dado público de giro de suco fresco por ponto em Cuiabá)",
       "url": "",
       "data": "2026-11-16",
       "confianca": "baixa",
-      "nota": "É a incerteza principal. O teste de pré-venda existe para estreitar esta faixa."
+      "nota": "É o número mais decisivo do modelo. Substituir pelo que a prospecção da Brasileira medir (teste de 2 a 4 semanas em poucos pontos)."
+    },
+    {
+      "id": "mix_300", "curto": "Peso do 300 ml",
+      "nome": "Peso do tamanho 300 ml no mix de vendas",
+      "unidade": "peso",
+      "min": 0.2, "moda": 0.4, "max": 0.6,
+      "fonte": "Premissa do estudo (cardápios de delivery oferecem 300 ml, 500 ml e 1 L; não achei dado de qual vende mais)",
+      "url": "https://99app.com/99food/campinas/sucos-olaranjinha/5764610498147126129/",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Os pesos são normalizados para somar 100% em cada cenário. Validar com a venda real do piloto."
+    },
+    {
+      "id": "mix_500", "curto": "Peso do 500 ml",
+      "nome": "Peso do tamanho 500 ml no mix de vendas",
+      "unidade": "peso",
+      "min": 0.2, "moda": 0.35, "max": 0.5,
+      "fonte": "Premissa do estudo (ver 300 ml)",
+      "url": "https://99app.com/99food/goiania/laranja-do-chef-suco-de-laranja/5764608481072775571/",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Validar com a venda real do piloto."
+    },
+    {
+      "id": "mix_1000", "curto": "Peso do 1 L",
+      "nome": "Peso do tamanho 1 L no mix de vendas",
+      "unidade": "peso",
+      "min": 0.05, "moda": 0.2, "max": 0.4,
+      "fonte": "Premissa do estudo (ver 300 ml)",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Validar com a venda real do piloto."
+    },
+    {
+      "id": "preco_varejo_300", "curto": "Preço varejo 300 ml",
+      "nome": "Preço ao consumidor da garrafa de 300 ml",
+      "unidade": "R$/un",
+      "min": 6.5, "moda": 7.5, "max": 9.99,
+      "fonte": "99Food: Olaranjinha (Campinas) R$ 6,50; Prados (Goiânia) R$ 8,75. Industrializado refrigerado: Natural One no Pão de Açúcar R$ 6,79 e na Droga Raia R$ 9,99 (laranja e maçã)",
+      "url": "https://99app.com/99food/goiania/prados-sucos-naturais/5764608491084579339/",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Nenhum preço de Cuiabá encontrado. Preços de aplicativo de entrega costumam ser maiores que os de balcão."
+    },
+    {
+      "id": "preco_varejo_500", "curto": "Preço varejo 500 ml",
+      "nome": "Preço ao consumidor da garrafa de 500 ml",
+      "unidade": "R$/un",
+      "min": 8.0, "moda": 9.0, "max": 10.5,
+      "fonte": "99Food: Laranja do Chef (Goiânia) R$ 10,00; Laranja's Sucos Naturais (Goiânia) R$ 9,00; Olaranjinha (Campinas) R$ 9,00",
+      "url": "https://99app.com/99food/goiania/laranjas-sucos-naturais/5764608485476795920/",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Nenhum preço de Cuiabá encontrado."
+    },
+    {
+      "id": "preco_varejo_1000", "curto": "Preço varejo 1 L",
+      "nome": "Preço ao consumidor da garrafa de 1 L",
+      "unidade": "R$/un",
+      "min": 15.0, "moda": 18.5, "max": 23.0,
+      "fonte": "99Food: Olaranjinha (Campinas) integral R$ 18,50. Antes (v1.0): Goiânia R$ 17, Salvador R$ 17, Recife R$ 25, São Paulo R$ 21 a 35",
+      "url": "https://99app.com/99food/campinas/sucos-olaranjinha/5764610498147126129/",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Nenhum preço de Cuiabá encontrado."
+    },
+    {
+      "id": "margem_ponto", "curto": "Margem do ponto",
+      "nome": "Margem do ponto de venda (parte do preço ao consumidor que o ponto fica)",
+      "unidade": "fração",
+      "min": 0.25, "moda": 0.35, "max": 0.45,
+      "fonte": "Premissa do estudo (sem dado público). Quem vende ao ponto recebe o preço ao consumidor menos esta margem",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Muda muito o resultado. Perguntar a supermercados, padarias e lanchonetes quanto aceitam pagar."
+    },
+    {
+      "id": "perda_validade", "curto": "Perda por validade",
+      "nome": "Garrafas que sobram e vencem (fração do que é produzido)",
+      "unidade": "fração",
+      "min": 0.05, "moda": 0.12, "max": 0.30,
+      "fonte": "Estudo de estabilidade do suco de laranja não pasteurizado e refrigerado: validade recomendada de 48 h, com degradação acentuada depois",
+      "url": "https://agris.fao.org/search/en/records/675ab70d0ce2cede71ce85b4",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "A validade vem de estudo; a fração perdida é estimativa. Suco pasteurizado dura mais, mas exige equipamento e registro (não incluídos)."
+    },
+    {
+      "id": "entrega_base_mes", "curto": "Entrega (base)",
+      "nome": "Entrega refrigerada: custo fixo mensal (veículo, combustível, manutenção)",
+      "unidade": "R$/mês",
+      "min": 600, "moda": 1500, "max": 3000,
+      "fonte": "Estimativa do estudo",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Com validade de 48 h, a entrega precisa ser frequente e refrigerada. Levantar o que a Brasileira já tem de veículo."
+    },
+    {
+      "id": "entrega_ponto_mes", "curto": "Entrega por ponto",
+      "nome": "Entrega refrigerada: custo mensal adicional por ponto atendido",
+      "unidade": "R$/ponto/mês",
+      "min": 20, "moda": 45, "max": 90,
+      "fonte": "Estimativa do estudo",
+      "url": "",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Cresce com o número de pontos e a distância entre eles."
+    },
+    {
+      "id": "taxa_fechamento", "curto": "Taxa de fechamento",
+      "nome": "Taxa de fechamento: de cada 100 contatos de prospecção, quantos viram ponto de venda",
+      "unidade": "fração",
+      "min": 0.03, "moda": 0.08, "max": 0.20,
+      "fonte": "Mediana de conversão de lead em cliente no B2B é de 2,9% (Martal Group, 2026); de oportunidade para fechamento, 20% a 60% (First Page Sage). Faixa do estudo, a trocar pelo dado da prospecção da Brasileira",
+      "url": "https://wavecnct.com/pt/blog/estatisticas-de-vendas-b2b-em-2026-mais-de-65-dados-e-fatos-essenciais",
+      "data": "2026-11-16",
+      "confianca": "baixa",
+      "nota": "Só converte pontos em contatos a prospectar; não muda o VPL."
     }
   ],
-  "referencias_preco_venda": {
-    "nome": "Preço de venda de 1 L de suco natural",
-    "unidade": "R$/L",
-    "faixa_padrao": [15, 19, 24],
-    "fonte": "99Food: Goiânia R$ 17 (e R$ 24 em outro local), Salvador R$ 17, Recife R$ 25, São Paulo R$ 21 a 35. Industrializado refrigerado: Natural One 900 ml R$ 14,99",
-    "url": "https://99app.com/99food/goiania/laranjas-sucos-naturais/5764608485476795920/",
-    "data": "2026-11-16",
-    "confianca": "baixa",
-    "nota": "Nenhum preço de Cuiabá encontrado. O simulador permite mudar o preço."
+  "referencias_preco_varejo": [
+    { "tamanho": "300 ml", "local": "Prados Sucos Naturais, Goiânia (99Food)", "preco": 8.75, "url": "https://99app.com/99food/goiania/prados-sucos-naturais/5764608491084579339/" },
+    { "tamanho": "300 ml", "local": "Olaranjinha, Campinas (99Food), integral", "preco": 6.5, "url": "https://99app.com/99food/campinas/sucos-olaranjinha/5764610498147126129/" },
+    { "tamanho": "300 ml", "local": "The Natural One, Pão de Açúcar (industrializado refrigerado)", "preco": 6.79, "url": "https://www.paodeacucar.com/produto/354211/suco-integral-laranja-the-natural-one-refrigerado-garrafa-300ml" },
+    { "tamanho": "500 ml", "local": "Laranja do Chef, Goiânia (99Food)", "preco": 10.0, "url": "https://99app.com/99food/goiania/laranja-do-chef-suco-de-laranja/5764608481072775571/" },
+    { "tamanho": "500 ml", "local": "Laranja's Sucos Naturais, Goiânia (99Food)", "preco": 9.0, "url": "https://99app.com/99food/goiania/laranjas-sucos-naturais/5764608485476795920/" },
+    { "tamanho": "1 L", "local": "Olaranjinha, Campinas (99Food), integral", "preco": 18.5, "url": "https://99app.com/99food/campinas/sucos-olaranjinha/5764610498147126129/" }
+  ],
+  "financeiro": {
+    "tma_base_aa": 0.1375,
+    "horizonte_meses": 24,
+    "tmas_comparacao_aa": [0.1375, 0.20, 0.25, 0.30],
+    "fonte": "Selic em 13,75% ao ano, mantida pelo Copom em 4 de novembro de 2026 (piso da taxa mínima de atratividade)",
+    "url": "https://atlaspublico.com.br/bcb/noticias/copom-mantem-selic-em-13-75pct-ao-ano-por-unanimidade-e-ve-99107",
+    "nota": "Um negócio pequeno e arriscado deve exigir retorno acima da Selic. Por isso o painel mostra o VPL também a 20%, 25% e 30% ao ano. Valor residual no fim do horizonte: zero (conservador)."
   },
+  "metodologia": [
+    { "titulo": "Análise de risco de Hertz (1964)", "descricao": "Distribuições de probabilidade nas entradas e simulação de Monte Carlo para obter a distribuição do VPL do projeto.", "fonte": "Hertz, D. B. Risk analysis in capital investment. Harvard Business Review, 1964 (citado em Tilburg University)", "url": "https://repository.tilburguniversity.edu/server/api/core/bitstreams/9b92ec7c-14ec-4209-8047-ae798c315486/content" },
+    { "titulo": "Fluxo de caixa descontado: VPL, TIR e payback descontado", "descricao": "Método padrão de análise de investimentos (Assaf Neto; Bruni e Famá).", "fonte": "USP: Elaboração e Análise de Projetos (aula sobre payback, VPL e TIR)", "url": "https://edisciplinas.usp.br/pluginfile.php/4137633/mod_resource/content/1/Elabora%C3%A7%C3%A3o%20e%20An%C3%A1lise%20de%20Projetos_Aula%2026-10.pdf" },
+    { "titulo": "Indicadores de viabilidade usados pelo Sebrae", "descricao": "TIR, VPL, TMA, ponto de equilíbrio, exposição máxima de caixa e payback.", "fonte": "Sebrae PR: temas de uma consultoria de viabilidade financeira", "url": "https://sebraepr.com.br/comunidade/artigo/conheca-os-temas-abordados-em-uma-consultoria-de-viabilidade-financeira" },
+    { "titulo": "Sensibilidade e diagrama tornado", "descricao": "Variar uma entrada por vez para achar a que mais move o VPL; é saída padrão de ferramentas de Monte Carlo.", "fonte": "Exame CMA: risco em orçamento de capital", "url": "https://open-exam-prep.com/study-guides/cma-part2/investment-decisions/risk-in-capital-budgeting" },
+    { "titulo": "Aplicação brasileira: sensibilidade e Monte Carlo em microempresa", "descricao": "Viabilidade e risco da expansão de uma microcafeteria.", "fonte": "Produto & Produção, UFRGS, 2026", "url": "https://seer.ufrgs.br/index.php/ProdutoProducao/article/download/155466/100104/716228" }
+  ],
   "premissas_fixas": {
     "capacidade_func_dia_litros": 60,
     "mes1_fator_volume": 0.7,
     "mes1_perda_extra": 0.08,
-    "variacao_preco_venda": 0.15,
-    "nota_capacidade": "Premissa do estudo (sem dado da máquina). Confirmar o modelo e a capacidade real."
+    "rampa_meses": 4,
+    "nota_capacidade": "Premissa do estudo (sem dado da máquina). Confirmar o modelo e a capacidade real. O modelo contrata funcionários automaticamente quando a produção passa da capacidade.",
+    "nota_rampa": "A venda sobe do volume do mês 1 até 100% ao longo de 4 meses (premissa do estudo)."
   },
   "lacunas": [
-    "Sem preço de venda nem concorrentes de Cuiabá: precisa de visita e pesquisa de campo.",
+    "Giro por ponto, mix de tamanhos e margem do ponto são premissas sem dado: validar com um teste em poucos pontos de venda.",
+    "Sem preço de venda nem concorrentes de Cuiabá: precisa de visita e pesquisa de campo. Os preços de varejo vêm de Goiânia e Campinas.",
+    "Taxa de fechamento vem de média de mercado B2B, não da prospecção da Brasileira.",
+    "Custos de embalagem de 300 ml e 500 ml e de entrega refrigerada são estimativas, sem orçamento.",
+    "Investimento inicial (licenças, adequações, giro) é estimativa; confirmar com contador e Vigilância Sanitária.",
+    "Validade de 48 h limita a distribuição; suco pasteurizado exigiria equipamento e registro não incluídos.",
     "Rendimento (kg por litro) e perdas não medidos na máquina real.",
     "Preço da laranja é de julho de 2026; falta atualizar a cotação de novembro.",
     "Preço de compra real da laranja em volume não está neste site (dado interno).",
     "Custo de mão de obra é média do setor de restaurantes em MT, não de Cuiabá.",
-    "Preço do rótulo adesivo em reais não foi encontrado.",
-    "Água, energia, limpeza, impostos e custos fixos são estimativas."
+    "Entradas são sorteadas de forma independente (sem correlação entre preço da laranja e perda, por exemplo)."
   ]
 }

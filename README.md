@@ -1,27 +1,29 @@
 <!--
   README do simulador de viabilidade – suco de laranja natural (Cuiabá)
   Autor: Bruno Duda Dantas Matos
-  Versão: v1.0 (2026-11-16)
+  Versão: v2.0 (2026-11-16)
   Histórico de mudanças: veja CHANGELOG.md
 -->
 # Simulador de viabilidade: suco de laranja natural em Cuiabá
 
-Estudo de viabilidade com dados públicos. Simula custo por litro, lucro mensal,
-ponto de equilíbrio e chance de prejuízo (Monte Carlo, 5.000 cenários).
+Estudo de viabilidade com dados públicos. Responde: quantos pontos de venda, quantas garrafas
+(300 ml, 500 ml e 1 L) e quantos contatos de prospecção são necessários para o negócio se pagar.
+Método: análise de risco de Hertz (1964), com Monte Carlo sobre o VPL, TIR, payback descontado e tornado.
 
-**Autor:** Bruno Duda Dantas Matos · **Versão:** v1.0
+**Autor:** Bruno Duda Dantas Matos · **Versão:** v2.0
 
 ## O que ele faz
 
-- Você escolhe: volume vendido por dia, preço de venda, número de funcionários e dias de operação.
+- Você escolhe: pontos de venda atendidos, equipe mínima, dias de operação, retorno exigido (TMA), horizonte e a margem do ponto de venda.
 - Cada custo é uma **faixa** (mínimo, mais provável, máximo), não um número fixo.
-- Mostra lucro mensal (mediana e faixa de 80% dos cenários), custo total por litro,
-  ponto de equilíbrio, chance de prejuízo e o **mês 1** (treinamento e curva de aprendizado).
+- Mostra pontos de venda mínimos, garrafas por dia no equilíbrio, contatos a prospectar, VPL (mediana e faixa de 80%),
+  chance de VPL negativo, payback descontado, TIR, exposição máxima de caixa, lucro em regime e o **mês 1**.
+- Mostra o **tornado** (o que mais pesa no VPL) e a tabela de quanto o ponto de venda fica do preço.
 - Cada dado tem **fonte, data e nível de confiança** (alta, média ou baixa).
 
 ## ⚠ O que ele NÃO faz
 
-- **Não prevê demanda.** O volume vendido é uma escolha sua. A demanda real só se descobre com pré-venda e visitas a clientes.
+- **Não prevê demanda.** O giro por ponto, o mix de tamanhos e a taxa de fechamento são premissas. A demanda real só se descobre com teste em poucos pontos e a prospecção.
 - Vários números são **estimativas** (confiança baixa). A lista do que falta aparece na página.
 - Não é aconselhamento financeiro, jurídico ou sanitário. Confirme registro no MAPA, alvará sanitário, CNAE e impostos com contador e Vigilância Sanitária.
 - **Não coloque dados internos de empresas neste repositório** (ele é público). Use só dados públicos ou faixas.
@@ -40,7 +42,7 @@ Abra http://localhost:8080 no navegador. (É só um servidor de arquivos estáti
 npm test
 ```
 
-Os testes conferem a conta feita à mão, o mês 1, a reprodutibilidade e os limites.
+Os testes conferem a conta feita à mão (e em Python), o VPL, a TIR, o payback, o tornado, a reprodutibilidade e os limites.
 
 ## Como atualizar os dados
 
