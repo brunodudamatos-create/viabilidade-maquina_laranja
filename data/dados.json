@@ -1,5 +1,5 @@
 {
-  "versao": "3.0",
+  "versao": "3.1",
   "atualizado": "2026-11-20",
   "autor": "Bruno Duda Dantas Matos",
   "aviso": "Estudo de viabilidade. Valores 'baixa' são estimativas a confirmar com orçamento, medição na máquina ou pesquisa de campo. Não há dados internos de empresas neste arquivo. Histórico: v2.0 (2026-11-16) – funil de pontos de venda, mix de tamanhos, validade, entrega, VPL/TIR/payback; v1.0 – primeira versão.",
@@ -1222,5 +1222,136 @@
         "Pedir informação de permissão na prefeitura."
       ]
     }
-  ]
+  ],
+  "pendencias": [
+    {
+      "n": 1,
+      "item": "Placa da máquina de suco",
+      "enviar": "Foto da placa: modelo, potência (W ou kW), tensão e, se tiver, capacidade (laranjas por minuto ou litros por hora).",
+      "onde_entra": "Energia da máquina por litro (kWh/L) e capacidade de produção por pessoa",
+      "cenarios": "B, C, D, E",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 2,
+      "item": "Conta de luz da empresa",
+      "enviar": "Uma conta recente: tarifa com impostos (R$/kWh), consumo do mês e modalidade (comercial).",
+      "onde_entra": "Tarifa de energia (R$/kWh)",
+      "cenarios": "B, C, D, E (e A, quando a energia sair dos insumos)",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 3,
+      "item": "Consumo da câmara fria / geladeira",
+      "enviar": "Quanto a câmara fria (ou a geladeira onde o suco ficaria) consome por dia, pelo medidor do painel, e que parte caberia ao suco.",
+      "onde_entra": "Refrigeração atribuída ao suco (kWh/dia), que é provavelmente o maior consumo",
+      "cenarios": "B, C, D, E",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 4,
+      "item": "Manutenção da máquina",
+      "enviar": "Quem faz a manutenção, de quanto em quanto tempo, quais peças gastam (lâminas, peneiras, vedações) e quanto custa cada revisão.",
+      "onde_entra": "Manutenção da máquina (R$/mês)",
+      "cenarios": "B, C, D, E",
+      "prioridade": "Média"
+    },
+    {
+      "n": 5,
+      "item": "Rendimento real da laranja",
+      "enviar": "Teste na máquina: quantos kg de laranja dão 1 litro de suco e quanta fruta é descartada.",
+      "onde_entra": "Rendimento (kg/L) e perda de fruta",
+      "cenarios": "Todos",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 6,
+      "item": "Preço da laranja em novembro",
+      "enviar": "Cotação atual da laranja no CEASA e o preço de compra em volume para o negócio.",
+      "onde_entra": "Preço da laranja (R$/kg), o item de custo mais pesado depois da equipe",
+      "cenarios": "Todos",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 7,
+      "item": "Orçamentos de embalagem",
+      "enviar": "Garrafas de 300 ml, 500 ml e 1 L com tampa e lacre; rótulos; copo com tampa e canudo. Preço por unidade em 3 fornecedores.",
+      "onde_entra": "Embalagem por venda",
+      "cenarios": "Todos",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 8,
+      "item": "Preços praticados em Cuiabá",
+      "enviar": "Preço do copo de 300 ml e 500 ml e da garrafa em 5 a 10 lugares (suquerias, mercados, lanchonetes, CEASA), com data.",
+      "onde_entra": "Preço por venda (hoje vem de Goiânia e Campinas)",
+      "cenarios": "B, C, D, E",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 9,
+      "item": "Movimento de clientes no ponto",
+      "enviar": "Contagem de pessoas que passam no ponto do CEASA (e de outros candidatos) por horário, por 3 a 7 dias, ou um teste de venda de 3 dias com copos por dia anotados.",
+      "onde_entra": "Demanda por dia e 'quanto da demanda aparece'",
+      "cenarios": "B, D, E",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 10,
+      "item": "Espaço e aluguel",
+      "enviar": "Se a empresa cede o espaço; se há taxa do CEASA; valor de aluguel ou permissão de um ponto externo.",
+      "onde_entra": "Aluguel do ponto (R$/mês)",
+      "cenarios": "B, D, E",
+      "prioridade": "Média"
+    },
+    {
+      "n": 11,
+      "item": "Licenças e impostos",
+      "enviar": "Custo e prazo de Vigilância Sanitária, alvará e enquadramento (MEI ou Simples), e quanto cobra um contador.",
+      "onde_entra": "Investimento inicial, imposto e custos fixos",
+      "cenarios": "Todos",
+      "prioridade": "Média"
+    },
+    {
+      "n": 12,
+      "item": "Entrega",
+      "enviar": "Custo real por entrega (moto, combustível, entregador), se existe veículo refrigerado e quantos pedidos cabem em uma rota.",
+      "onde_entra": "Entrega por pedido (R$/pedido)",
+      "cenarios": "C",
+      "prioridade": "Média"
+    },
+    {
+      "n": 13,
+      "item": "Quem opera e quanto custa",
+      "enviar": "Quem ficaria no balcão ou na entrega, quantas horas por dia, se é da família sem salário, e o custo real de um funcionário em Cuiabá.",
+      "onde_entra": "Equipe, pessoas sem salário e custo por funcionário",
+      "cenarios": "Todos",
+      "prioridade": "Alta"
+    },
+    {
+      "n": 14,
+      "item": "Capacidade da máquina e da câmara",
+      "enviar": "Quantos litros por hora a máquina entrega de fato e quanto espaço livre há na câmara fria para o suco.",
+      "onde_entra": "Capacidade por pessoa (L/dia) e limite de produção",
+      "cenarios": "Todos",
+      "prioridade": "Média"
+    },
+    {
+      "n": 15,
+      "item": "Dados da prospecção de revenda",
+      "enviar": "Taxa de fechamento e giro de garrafas por ponto medidos em pontos de venda reais.",
+      "onde_entra": "Giro por ponto e taxa de fechamento (Cenário A)",
+      "cenarios": "A",
+      "prioridade": "Média"
+    },
+    {
+      "n": 16,
+      "item": "Garrafa pasteurizada ou prensagem a frio",
+      "enviar": "Se vale estender a validade de 48 h (equipamento e registro necessários) e quanto custaria.",
+      "onde_entra": "Perda por validade em A, C e D",
+      "cenarios": "A, C, D",
+      "prioridade": "Baixa"
+    }
+  ],
+  "pendencias_aviso": "Lista do que falta para deixar o estudo mais completo. Quando cada item chegar, o valor correspondente é trocado na tabela de dados do cenário e o estudo é revisado. Prioridade: alta = muda o resultado de forma importante."
 }

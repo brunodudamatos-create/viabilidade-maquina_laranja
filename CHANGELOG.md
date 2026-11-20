@@ -4,6 +4,10 @@
 
 Mudanças pequenas aumentam o decimal (v1.0 → v1.1). Mudanças estruturais aumentam o número inteiro (v1.x → v2.0).
 
+## v3.1 – 2026-11-20
+
+- Nova seção no fim da página, **"O que falta enviar para completar o estudo"**: 16 itens (placa da máquina, conta de luz, consumo da câmara fria, manutenção, rendimento da laranja, preço da laranja, orçamentos de embalagem, preços em Cuiabá, movimento de clientes, aluguel, licenças, entrega, equipe, capacidade, dados da prospecção e validade), cada um com onde entra no modelo, cenários afetados e prioridade.
+
 ## v3.0 – 2026-11-20
 
 Mudança estrutural: o simulador passa a ter **cenários de negócio clicáveis** (abas), para encontrar em qual modelo o suco de laranja se paga.

@@ -2,8 +2,9 @@
  * Interface dos cenários de negócio (abas A a E e comparação)
  * Autor: Bruno Duda Dantas Matos
  *
- * Versão: v3.0  (2026-11-20)
+ * Versão: v3.1  (2026-11-20)
  * Histórico de mudanças:
+ *   v3.1 – desenha a seção "O que falta enviar" (lista de pendências) no fim da página.
  *   v3.0 – arquivo novo. Abas para escolher o modelo de negócio (A garrafa para
  *          revenda, B copo no CEASA, C entrega própria, D garrafa no balcão,
  *          E carrinho) e uma aba que compara todos. Cada cenário tem os mesmos
@@ -494,6 +495,13 @@ function atualizarComparar() {
   $('k-nota').textContent = 'O volume padrão de cada cenário é um palpite, não um dado medido: o que esta tabela mostra com mais firmeza é o empate (quanto precisa vender). O Cenário A ainda traz a energia dentro dos insumos de R$ 0,50 por litro; nos demais ela é explícita. Preço, demanda, aluguel e investimento dos cenários B a E têm baixa confiança.';
 }
 
+/* ---------- Pendências ---------- */
+function desenharPendencias() {
+  $('pend-aviso').textContent = dados.pendencias_aviso;
+  const linhas = dados.pendencias.map((x) => `<tr><td class="num">${x.n}</td><td><strong>${esc(x.item)}</strong></td><td>${esc(x.enviar)}</td><td>${esc(x.onde_entra)}</td><td>${esc(x.cenarios)}</td><td class="conf ${x.prioridade === 'Alta' ? 'baixa' : x.prioridade === 'Média' ? 'media' : 'alta'}">${esc(x.prioridade)}</td><td>Pendente</td></tr>`);
+  $('t-pendencias').innerHTML = `<table><thead><tr><th>Nº</th><th>Item</th><th>O que enviar</th><th>Onde entra no modelo</th><th>Cenários</th><th>Prioridade</th><th>Situação</th></tr></thead><tbody>${linhas.join('')}</tbody></table>`;
+}
+
 /* ---------- Início ---------- */
 async function iniciar() {
   try {
@@ -502,6 +510,7 @@ async function iniciar() {
     dados = await resp.json();
   } catch (e) { return; }
   montarAbas();
+  desenharPendencias();
   const h = (location.hash || '').replace('#', '');
   const valida = h === 'comparar' || (h && cenarioPorLetra(h));
   irPara(valida ? h : 'A');

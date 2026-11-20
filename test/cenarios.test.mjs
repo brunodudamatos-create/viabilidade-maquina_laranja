@@ -106,3 +106,12 @@ test('todos os cenários: dados completos e tornado em ordem', () => {
     assert.ok(Number.isFinite(r.vpl.p50));
   }
 });
+
+test('lista de pendências completa e sem dado interno', () => {
+  assert.ok(dados.pendencias.length >= 12);
+  for (const x of dados.pendencias) {
+    for (const k of ['n', 'item', 'enviar', 'onde_entra', 'cenarios', 'prioridade']) assert.ok(x[k], `${x.n} sem ${k}`);
+    assert.ok(['Alta', 'Média', 'Baixa'].includes(x.prioridade));
+  }
+  assert.ok(!/brasileira/i.test(JSON.stringify(dados.pendencias)));
+});
