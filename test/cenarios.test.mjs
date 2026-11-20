@@ -9,7 +9,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { simular, tornado } from '../sim.js';
-import { mapaCenario, calcularMesCen, equilibrioVendas, simularCen, curvaDemanda, tornadoCen } from '../cenarios.js';
+import { mapaCenario, calcularMesCen, equilibrioVendas, simularCen, curvaDemanda, tornadoCen, comPreco, comEntrega, quantilTriangular, pedidoMinimo } from '../cenarios.js';
 
 const dados = JSON.parse(fs.readFileSync(new URL('../data/dados.json', import.meta.url), 'utf8'));
 const modas = (cen) => Object.fromEntries(Object.entries(mapaCenario(dados, cen)).map(([k, p]) => [k, p.moda]));
@@ -120,4 +120,25 @@ test('glossário cobre as siglas usadas na página', () => {
   const termos = dados.glossario.map((g) => g[0]).join(' | ');
   for (const sigla of ['VPL', 'TIR', 'TMA', 'Selic', 'Payback', 'ROI', 'Monte Carlo', 'kWh', 'CEASA', 'MEI']) assert.ok(termos.includes(sigla), sigla);
   for (const [t, def] of dados.glossario) assert.ok(t && def.length > 20);
+});
+
+test('regra da entrega: pedido mínimo, taxa e carona', () => {
+  const C = dados.cenarios.find((c) => c.letra === 'C');
+  const ctl = { demanda: 30, funcionarios: 1, familia: 0, diasMes: 26, tmaAa: 0.1375, horizonte: 24 };
+  // preço igual ao mais provável não muda nada
+  const moda = mapaCenario(dados, C).preco_un.moda;
+  assert.equal(simularCen(dados, comPreco(C, moda), ctl, 500).vpl.p50, simularCen(dados, C, ctl, 500).vpl.p50);
+  // pedido mínimo: com folga (80%) é maior que no empate (50%), e na mínima a chance bate a meta
+  const t50 = pedidoMinimo(dados, C, ctl, 0.5), t80 = pedidoMinimo(dados, C, ctl, 0.8);
+  assert.ok(t50 > 15 && t50 < t80 && t80 < 100);
+  assert.ok(simularCen(dados, comPreco(C, t80 + 0.5), ctl, 250).probVplNegativo <= 0.2 + 1e-9);
+  assert.ok(simularCen(dados, comPreco(C, t80 - 1), ctl, 250).probVplNegativo > 0.2);
+  // entrega de carona baixa o pedido mínimo
+  const carona = pedidoMinimo(dados, comEntrega(C, { min: 0, moda: 1, max: 3 }), ctl, 0.5);
+  assert.ok(carona < t50);
+  // quantil da triangular: q=0.5 entre min e max; q=1 é o máximo
+  assert.equal(quantilTriangular(4, 7, 12, 1), 12);
+  assert.ok(quantilTriangular(4, 7, 12, 0.8) > 7 && quantilTriangular(4, 7, 12, 0.8) < 12);
+  // pedido mais caro nunca piora o VPL
+  assert.ok(simularCen(dados, comPreco(C, 45), ctl, 300).vpl.p50 > simularCen(dados, comPreco(C, 35), ctl, 300).vpl.p50);
 });

@@ -2,8 +2,10 @@
  * Interface dos cenários de negócio (abas A a E e comparação)
  * Autor: Bruno Duda Dantas Matos
  *
- * Versão: v3.2  (2026-11-20)
+ * Versão: v3.3  (2026-11-20)
  * Histórico de mudanças:
+ *   v3.3 – Cenário C: filtro "valor do pedido de suco" e seção "Regra comercial da entrega"
+ *          (pedido mínimo, taxa de entrega, entrega de carona e tabela por pedidos/dia).
  *   v3.2 – glossário ("Como ler esta página"), frase explicativa em cada indicador e siglas por extenso.
  *   v3.1 – desenha a seção "O que falta enviar" (lista de pendências) no fim da página.
  *   v3.0 – arquivo novo. Abas para escolher o modelo de negócio (A garrafa para
@@ -15,7 +17,7 @@
  *          para empatar.
  */
 import { simular, histograma } from './sim.js';
-import { simularCen, curvaDemanda, demandaParaProb, tornadoCen, mapaCenario } from './cenarios.js';
+import { simularCen, curvaDemanda, demandaParaProb, tornadoCen, mapaCenario, comPreco, comEntrega, pedidoMinimo, quantilTriangular } from './cenarios.js';
 
 const $ = (id) => document.getElementById(id);
 const NS = 'http://www.w3.org/2000/svg';
@@ -90,7 +92,7 @@ function irPara(aba) {
 function montarCenario(cen) {
   $('painel-cen').dataset.modo = cen.letra;
   const st = estado[cen.letra] || (estado[cen.letra] = {
-    dem: cen.demanda.padrao, func: 1, fam: 0, dias: 26,
+    dem: cen.demanda.padrao, func: 1, fam: 0, dias: 26, tk: cen.ticket ? mapaCenario(dados, cen).preco_un.moda : 0,
     tma: dados.financeiro.tma_base_aa * 100, hor: dados.financeiro.horizonte_meses,
   });
   const un = cen.unidade_plural;
@@ -104,6 +106,8 @@ function montarCenario(cen) {
       <div class="controles">
         <div class="controle"><label for="c-dem">${esc(un[0].toUpperCase() + un.slice(1))} por dia (planejados) <output id="c-dem-v"></output></label>
           <input id="c-dem" type="range" min="${cen.demanda.min}" max="${cen.demanda.max}" step="${cen.demanda.passo}" value="${st.dem}"></div>
+        ${cen.ticket ? `<div class="controle"><label for="c-tk">Valor do pedido de suco <output id="c-tk-v"></output></label>
+          <input id="c-tk" type="range" min="${cen.ticket.min}" max="${cen.ticket.max}" step="${cen.ticket.passo}" value="${st.tk}"></div>` : ''}
         <div class="controle"><label for="c-func">Equipe mínima <output id="c-func-v"></output></label>
           <input id="c-func" type="range" min="1" max="3" step="1" value="${st.func}"></div>
         <div class="controle"><label for="c-fam">Pessoas sem salário (família) <output id="c-fam-v"></output></label>
@@ -141,6 +145,10 @@ function montarCenario(cen) {
       <div class="cartao"><div class="rotulo">Mês 1 (curva de aprendizado)</div><div class="valor" id="c-k-m1">–</div><div class="faixa" id="c-k-m1-f"></div><div class="ajuda">Resultado do primeiro mês, com menos vendas e mais perda de fruta.</div></div>
       <div class="cartao"><div class="rotulo">Investimento inicial</div><div class="valor" id="c-k-inv">–</div><div class="faixa" id="c-k-inv-f"></div><div class="ajuda">Dinheiro gasto antes de começar a vender (a máquina já existe e não entra).</div></div>
     </section>
+    ${cen.regra_entrega ? `<h2>Regra comercial da entrega: pedido mínimo e taxa</h2>
+    <p class="sub">${esc(cen.regra_texto)}</p>
+    <section class="grade-cartoes" id="c-regra-cartoes"><div class="calculando">Calculando…</div></section>
+    <section class="cartao tabela-rolagem" id="c-regra-tabela"></section>` : ''}
     <h2>Para onde vai cada real de venda</h2>
     <section class="cartao">
       <div class="grafico" id="c-g-custo"></div>
@@ -177,7 +185,7 @@ function montarCenario(cen) {
     <ul class="lacunas">${cen.como_validar.map((r) => `<li>${esc(r)}</li>`).join('')}</ul>
     <h2>Dados, fontes e confiança deste cenário</h2>
     <section class="cartao tabela-rolagem" id="c-t-dados"></section>`;
-  for (const id of ['c-dem', 'c-func', 'c-fam', 'c-dias', 'c-tma', 'c-hor']) $(id).addEventListener('input', agendarCen);
+  for (const id of ['c-dem', 'c-func', 'c-fam', 'c-dias', 'c-tma', 'c-hor', 'c-tk']) if ($(id)) $(id).addEventListener('input', agendarCen);
   desenharDadosCen(cen);
 }
 
@@ -205,10 +213,14 @@ function agendarCen() { if (pendenteCen) return; pendenteCen = true; requestAnim
 function atualizarCen() {
   pendenteCen = false;
   if (abaAtual === 'A' || abaAtual === 'comparar' || !$('c-dem')) return;
-  const cen = cenarioPorLetra(abaAtual);
+  const cenBase = cenarioPorLetra(abaAtual);
   const ctl = ctlCen();
-  const un = cen.unidade_plural;
-  estado[cen.letra] = { dem: ctl.demanda, func: ctl.funcionarios, fam: ctl.familia, dias: ctl.diasMes, tma: ctl.tmaAa * 100, hor: ctl.horizonte };
+  const un = cenBase.unidade_plural;
+  let cen = cenBase;
+  const tk = $('c-tk') ? Number($('c-tk').value) : 0;
+  if (tk && Math.abs(tk - mapaCenario(dados, cenBase).preco_un.moda) > 1e-9) cen = comPreco(cenBase, tk);
+  estado[cen.letra] = { dem: ctl.demanda, func: ctl.funcionarios, fam: ctl.familia, dias: ctl.diasMes, tma: ctl.tmaAa * 100, hor: ctl.horizonte, tk };
+  if ($('c-tk')) $('c-tk-v').textContent = brl0.format(tk);
   $('c-dem-v').textContent = `${num0.format(ctl.demanda)} ${un}`;
   $('c-func-v').textContent = `${ctl.funcionarios} (mínimo)`;
   $('c-fam-v').textContent = `${ctl.familia}`;
@@ -266,11 +278,12 @@ function atualizarCen() {
   graficoTornado(tornadoCen(dados, cen, ctl));
   tabelaTma(r);
   clearTimeout(timer);
-  timer = setTimeout(() => pesadoCen(cen, ctl, r), 80);
+  timer = setTimeout(() => pesadoCen(cen, ctl, r, cenBase), 80);
 }
 
-function pesadoCen(cen, ctl, r) {
+function pesadoCen(cen, ctl, r, cenBase) {
   if (abaAtual !== cen.letra || !$('c-g-curva')) return;
+  if (cen.regra_entrega) setTimeout(() => calcularRegra(cenBase, ctl), 30);
   const passo = Math.max(cen.demanda.passo, Math.ceil((cen.demanda.max - cen.demanda.min) / 36 / cen.demanda.passo) * cen.demanda.passo);
   const lista = [];
   for (let d = cen.demanda.min; d <= cen.demanda.max; d += passo) lista.push(d);
@@ -282,6 +295,38 @@ function pesadoCen(cen, ctl, r) {
   $('c-curva-leitura').textContent = p50 === null
     ? `Nesta configuração, nenhuma demanda até ${cen.demanda.max} ${un} por dia faz o VPL ficar positivo em metade dos cenários.`
     : `Chance de VPL positivo de 50% a partir de ${p50} ${un} por dia${p80 !== null ? ` e de 80% a partir de ${p80}` : ` (80% não é atingida até ${cen.demanda.max})`}.`;
+}
+
+/* ---------- Regra comercial da entrega (Cenário C) ---------- */
+const CARONA = { min: 0, moda: 1, max: 3 };
+const arred5 = (x) => Math.ceil(x / 5) * 5;
+
+function calcularRegra(cen, ctl) {
+  if (abaAtual !== cen.letra || !$('c-regra-cartoes')) return;
+  const mapa = mapaCenario(dados, cen);
+  const ent = mapa.entrega_un;
+  const fee80 = quantilTriangular(ent.min, ent.moda, ent.max, 0.8);
+  const cenBase = cen.ticket ? comPreco(cen, mapa.preco_un.moda) : cen;
+  const t50 = pedidoMinimo(dados, cenBase, ctl, 0.5);
+  const t80 = pedidoMinimo(dados, cenBase, ctl, 0.8);
+  const cenC = comEntrega(cenBase, CARONA);
+  const c50 = pedidoMinimo(dados, cenC, ctl, 0.5);
+  const c80 = pedidoMinimo(dados, cenC, ctl, 0.8);
+  const f = (v) => (v === null ? 'não fecha até R$ 300' : brl0.format(Math.ceil(v)));
+  $('c-regra-cartoes').innerHTML = `
+    <div class="cartao"><div class="rotulo">Pedido mínimo do suco (empate)</div><div class="valor">${f(t50)}</div><div class="faixa">com entrega própria, a ${num0.format(ctl.demanda)} pedidos por dia</div><div class="ajuda">Menor valor de pedido em que o VPL fica positivo em metade dos cenários.</div></div>
+    <div class="cartao"><div class="rotulo">Pedido mínimo com folga</div><div class="valor">${f(t80)}</div><div class="faixa">VPL positivo em 80% dos cenários</div><div class="ajuda">É o valor mais seguro para exigir do cliente.</div></div>
+    <div class="cartao"><div class="rotulo">Taxa de entrega que cobre o custo</div><div class="valor">${brl0.format(Math.ceil(fee80))}</div><div class="faixa">custo típico de ${brl2.format(ent.moda)} por entrega; em 80% dos casos custa até ${brl2.format(fee80)}</div><div class="ajuda">Para pedidos abaixo do mínimo, esta taxa paga a entrega.</div></div>
+    <div class="cartao"><div class="rotulo">Regra sugerida</div><div class="valor">${t80 === null ? '–' : brl0.format(arred5(t80))}</div><div class="faixa">${t80 === null ? '' : `Pedido mínimo de ${brl0.format(arred5(t80))}; abaixo disso, taxa de entrega de ${brl0.format(Math.ceil(fee80))}.`}</div><div class="ajuda">Combina o pedido mínimo com folga e a taxa que cobre a entrega.</div></div>
+    <div class="cartao"><div class="rotulo">Entrega de carona: pedido mínimo</div><div class="valor">${f(c50)}</div><div class="faixa">com folga (80%): ${f(c80)}</div><div class="ajuda">Se o suco vai junto com a rota de frutas, o custo extra da entrega cai para R$ 0 a R$ 3.</div></div>`;
+  const linhas = [];
+  for (const dem of [10, 20, 30, 50]) {
+    const c = { ...ctl, demanda: dem };
+    const a50 = pedidoMinimo(dados, cenBase, c, 0.5, 200), a80 = pedidoMinimo(dados, cenBase, c, 0.8, 200);
+    const b50 = pedidoMinimo(dados, cenC, c, 0.5, 200), b80 = pedidoMinimo(dados, cenC, c, 0.8, 200);
+    linhas.push(`<tr><td class="num">${dem} pedidos/dia</td><td class="num">${f(a50)}</td><td class="num">${f(a80)}</td><td class="num">${f(b50)}</td><td class="num">${f(b80)}</td></tr>`);
+  }
+  $('c-regra-tabela').innerHTML = `<table><thead><tr><th>Demanda</th><th>Entrega própria: mínimo (empate)</th><th>Entrega própria: mínimo com folga</th><th>De carona: mínimo (empate)</th><th>De carona: mínimo com folga</th></tr></thead><tbody>${linhas.join('')}</tbody></table>`;
 }
 
 /* ---------- Gráficos ---------- */

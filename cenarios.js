@@ -3,8 +3,11 @@
  * Arquivo: cenarios.js (motor dos cenários de venda direta B, C, D e E)
  * Autor: Bruno Duda Dantas Matos
  *
- * Versão: v3.0  (2026-11-20)
+ * Versão: v3.3  (2026-11-20)
  * Histórico de mudanças:
+ *   v3.3 – regra comercial da entrega (Cenário C): pedido mínimo em que a entrega
+ *          se paga, taxa de entrega que cobre o custo, entrega de carona e valor
+ *          do pedido como filtro. Funções novas; nenhuma conta existente mudou.
  *   v3.0 – arquivo novo. Quatro modelos de negócio sem intermediário:
  *          B copo no CEASA, C entrega própria, D garrafa no balcão e
  *          E carrinho em ponto de fluxo. A demanda passa a ser o número de
@@ -258,4 +261,48 @@ export function tornadoCen(dados, cen, ctl) {
   }
   itens.sort((x, y) => y.amplitude - x.amplitude);
   return { vplBase, itens };
+}
+
+/* ---------- Regra comercial da entrega (v3.3) ---------- */
+
+/** Cópia do cenário com o preço (valor do pedido) mudado para `valor`, mantendo as proporções da faixa. */
+export function comPreco(cen, valor) {
+  const c = JSON.parse(JSON.stringify(cen));
+  const p = c.params.find((x) => x.id === 'preco_un');
+  const f = valor / p.moda;
+  p.min *= f; p.max *= f; p.moda = valor;
+  return c;
+}
+
+/** Cópia do cenário com outra faixa de custo de entrega por pedido. */
+export function comEntrega(cen, faixa) {
+  const c = JSON.parse(JSON.stringify(cen));
+  const p = c.params.find((x) => x.id === 'entrega_un');
+  p.min = faixa.min; p.moda = faixa.moda; p.max = faixa.max;
+  return c;
+}
+
+/** Quantil de uma distribuição triangular. */
+export function quantilTriangular(min, moda, max, q) {
+  if (max === min) return min;
+  const c = (moda - min) / (max - min);
+  if (q < c) return min + Math.sqrt(q * (max - min) * (moda - min));
+  return max - Math.sqrt((1 - q) * (max - min) * (max - moda));
+}
+
+/**
+ * Menor valor de pedido (R$) em que a chance de VPL positivo chega a probAlvo.
+ * O VPL só sobe quando o valor do pedido sobe, então a busca por bisseção é exata.
+ * Devolve null se nem R$ 300 bastam.
+ */
+export function pedidoMinimo(dados, cen, ctl, probAlvo, n = 250, semente = 20261120) {
+  const ok = (t) => simularCen(dados, comPreco(cen, t), ctl, n, semente).probVplNegativo <= 1 - probAlvo + 1e-12;
+  let lo = 5, hi = 300;
+  if (!ok(hi)) return null;
+  if (ok(lo)) return lo;
+  for (let i = 0; i < 10; i++) {
+    const mid = (lo + hi) / 2;
+    if (ok(mid)) hi = mid; else lo = mid;
+  }
+  return hi;
 }

@@ -4,6 +4,14 @@
 
 Mudanças pequenas aumentam o decimal (v1.0 → v1.1). Mudanças estruturais aumentam o número inteiro (v1.x → v2.0).
 
+## v3.3 – 2026-11-20
+
+- Cenário C (entrega própria): nova seção **"Regra comercial da entrega: pedido mínimo e taxa"**, calculada ao vivo pelo modelo: pedido mínimo no empate, pedido mínimo com folga (80% de chance de VPL positivo), taxa de entrega que cobre o custo, regra sugerida e entrega de carona (custo extra de R$ 0 a R$ 3).
+- Tabela do pedido mínimo por demanda (10, 20, 30 e 50 pedidos por dia).
+- Novo filtro **"Valor do pedido de suco"** no Cenário C.
+- Nova pendência 17: margem sobre as frutas e rota de entrega.
+- O Cenário A não mudou (testes provam o mesmo resultado).
+
 ## v3.2 – 2026-11-20
 
 - Caixa **"Como ler esta página: siglas e termos"** no topo, com VPL, TIR, TMA, Selic, payback, ROI, exposição de caixa, em regime, equilíbrio, mediana, Monte Carlo, Hertz, tornado, kWh, CEASA, MEI e Simples, entre outros (21 termos).

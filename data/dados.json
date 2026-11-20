@@ -1,5 +1,5 @@
 {
-  "versao": "3.2",
+  "versao": "3.3",
   "atualizado": "2026-11-20",
   "autor": "Bruno Duda Dantas Matos",
   "aviso": "Estudo de viabilidade. Valores 'baixa' são estimativas a confirmar com orçamento, medição na máquina ou pesquisa de campo. Não há dados internos de empresas neste arquivo. Histórico: v2.0 (2026-11-16) – funil de pontos de venda, mix de tamanhos, validade, entrega, VPL/TIR/payback; v1.0 – primeira versão.",
@@ -878,7 +878,14 @@
       "como_validar": [
         "Montar um grupo de pré-venda com cerca de 30 pessoas e ver quantas aceitam uma assinatura semanal.",
         "Entregar por uma semana em um bairro e anotar pedidos, tempo de rota e custo."
-      ]
+      ],
+      "regra_entrega": true,
+      "ticket": {
+        "min": 15,
+        "max": 120,
+        "passo": 1
+      },
+      "regra_texto": "Regra comercial da entrega: o simulador calcula o menor valor de pedido de suco em que a entrega se paga e a taxa de entrega que cobre o custo. A regra sugerida usa folga: pedido mínimo em que o VPL (Valor Presente Líquido) é positivo em 80% dos cenários, e abaixo dele uma taxa de entrega que cobre o custo da entrega em 80% dos casos. Os valores mudam com os filtros e com as premissas (preço por litro, custo de entrega, demanda)."
     },
     {
       "id": "balcao_garrafa",
@@ -1351,6 +1358,14 @@
       "onde_entra": "Perda por validade em A, C e D",
       "cenarios": "A, C, D",
       "prioridade": "Baixa"
+    },
+    {
+      "n": 17,
+      "item": "Margem sobre os outros produtos (frutas) e rota de entrega",
+      "enviar": "Margem média de lucro sobre os pedidos de frutas dos clientes que receberiam o suco, quantos clientes por dia a rota atende e se o veículo é refrigerado.",
+      "onde_entra": "Entrega de carona (custo extra do suco) e quantos pedidos por dia são realistas",
+      "cenarios": "C",
+      "prioridade": "Alta"
     }
   ],
   "pendencias_aviso": "Lista do que falta para deixar o estudo mais completo. Quando cada item chegar, o valor correspondente é trocado na tabela de dados do cenário e o estudo é revisado. Prioridade: alta = muda o resultado de forma importante.",
