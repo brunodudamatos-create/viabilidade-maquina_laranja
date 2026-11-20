@@ -1,7 +1,7 @@
 <!--
   README do simulador de viabilidade – suco de laranja natural (Cuiabá)
   Autor: Bruno Duda Dantas Matos
-  Versão: v3.1 (2026-11-20)
+  Versão: v3.2 (2026-11-20)
   Histórico de mudanças: veja CHANGELOG.md
 -->
 # Simulador de viabilidade: suco de laranja natural em Cuiabá
@@ -10,7 +10,7 @@ Estudo de viabilidade com dados públicos. Responde: quantos pontos de venda, qu
 (300 ml, 500 ml e 1 L) e quantos contatos de prospecção são necessários para o negócio se pagar.
 Método: análise de risco de Hertz (1964), com Monte Carlo sobre o VPL, TIR, payback descontado e tornado.
 
-**Autor:** Bruno Duda Dantas Matos · **Versão:** v3.1
+**Autor:** Bruno Duda Dantas Matos · **Versão:** v3.2
 
 ## O que ele faz
 

@@ -1,5 +1,5 @@
 {
-  "versao": "3.1",
+  "versao": "3.2",
   "atualizado": "2026-11-20",
   "autor": "Bruno Duda Dantas Matos",
   "aviso": "Estudo de viabilidade. Valores 'baixa' são estimativas a confirmar com orçamento, medição na máquina ou pesquisa de campo. Não há dados internos de empresas neste arquivo. Histórico: v2.0 (2026-11-16) – funil de pontos de venda, mix de tamanhos, validade, entrega, VPL/TIR/payback; v1.0 – primeira versão.",
@@ -1353,5 +1353,95 @@
       "prioridade": "Baixa"
     }
   ],
-  "pendencias_aviso": "Lista do que falta para deixar o estudo mais completo. Quando cada item chegar, o valor correspondente é trocado na tabela de dados do cenário e o estudo é revisado. Prioridade: alta = muda o resultado de forma importante."
+  "pendencias_aviso": "Lista do que falta para deixar o estudo mais completo. Quando cada item chegar, o valor correspondente é trocado na tabela de dados do cenário e o estudo é revisado. Prioridade: alta = muda o resultado de forma importante.",
+  "glossario": [
+    [
+      "VPL (Valor Presente Líquido)",
+      "Quanto o negócio ganha a mais, em valores de hoje, do que você ganharia deixando o mesmo dinheiro aplicado ao retorno exigido. Positivo: vale mais que aplicar. Negativo: seria melhor deixar aplicado. Como se calcula: soma o lucro de cada mês, desconta o tempo (R$ 100 que chegam daqui a um ano valem menos que R$ 100 hoje) e subtrai o que foi investido no começo."
+    ],
+    [
+      "TIR (Taxa Interna de Retorno)",
+      "Quanto o negócio rende por ano, em porcentagem. Compare com o retorno exigido (TMA): se a TIR é maior, o negócio vale a pena. Com investimento pequeno a TIR sai enorme; olhe junto o VPL e o payback."
+    ],
+    [
+      "TMA (Taxa Mínima de Atratividade) ou retorno exigido",
+      "O mínimo que você exige do negócio por ano. É o piso do desconto do VPL. Aqui começa na Selic e você pode mudar no filtro."
+    ],
+    [
+      "Selic",
+      "Taxa básica de juros do Brasil: 13,75% ao ano em novembro de 2026. É o que o dinheiro rende aplicado com segurança; por isso é o piso do retorno exigido."
+    ],
+    [
+      "Payback",
+      "Em quantos meses o dinheiro investido volta. O payback descontado já desconta o retorno exigido (mais exigente); o payback simples é só investimento dividido pelo lucro mensal."
+    ],
+    [
+      "ROI (Retorno sobre o Investimento)",
+      "Lucro de um ano dividido pelo dinheiro investido no começo. Se for 100% ao ano, em um ano você ganha o que investiu."
+    ],
+    [
+      "Exposição máxima de caixa",
+      "O máximo de dinheiro que você precisa ter disponível antes de o negócio começar a se pagar (investimento mais os meses de prejuízo)."
+    ],
+    [
+      "Em regime",
+      "O mês normal de operação, depois dos primeiros meses de aprendizado (as vendas sobem do mês 1 ao mês 4)."
+    ],
+    [
+      "Ponto de equilíbrio (empate)",
+      "Quanto precisa vender para o lucro do mês ficar em zero: abaixo disso é prejuízo, acima é lucro."
+    ],
+    [
+      "Mediana, pior 10% e melhor 10%",
+      "A simulação roda milhares de cenários. A mediana é o valor do meio. 'Pior 10%' e 'melhor 10%' são os extremos; entre eles fica a faixa de 80% dos cenários."
+    ],
+    [
+      "Monte Carlo",
+      "Técnica de simulação: o programa sorteia milhares de vezes valores dentro das faixas (mínimo, mais provável e máximo) de cada custo e preço, e mostra o que sai no conjunto."
+    ],
+    [
+      "Análise de risco de Hertz",
+      "Método clássico (David Hertz, 1964) que, em vez de um único número, mostra a distribuição possível do VPL: quanto pode dar, e com que chance."
+    ],
+    [
+      "Tornado",
+      "Gráfico que mostra qual custo ou preço mexe mais no resultado, do maior para o menor."
+    ],
+    [
+      "Giro por ponto",
+      "Quantas garrafas um ponto de venda (mercado, padaria) vende por dia. Cenário A."
+    ],
+    [
+      "Margem do ponto",
+      "A parte do preço ao consumidor que fica com o mercado ou a padaria que revende. Cenário A."
+    ],
+    [
+      "Perda por validade",
+      "O suco fresco dura cerca de 48 horas; o que não vende nesse prazo é perdido."
+    ],
+    [
+      "Quanto da demanda aparece",
+      "Parte da venda planejada que realmente acontece (chuva, frio, dia fraco, concorrência)."
+    ],
+    [
+      "Pessoas sem salário (família)",
+      "Quantas pessoas trabalham sem receber salário (por exemplo, você ou a família). Mostra o peso de contratar gente."
+    ],
+    [
+      "kWh (quilowatt-hora)",
+      "Unidade de energia da conta de luz. A máquina e a câmara fria gastam kWh; o custo é kWh vezes a tarifa em R$ por kWh."
+    ],
+    [
+      "CEASA",
+      "Central de Abastecimento onde a fruta é comprada e onde o balcão ou quiosque ficaria."
+    ],
+    [
+      "MEI e Simples Nacional",
+      "Formas de pagar imposto de pequenos negócios. A escolha muda o imposto e deve ser confirmada com um contador."
+    ],
+    [
+      "Cenários A a E",
+      "Modelos de negócio diferentes: A garrafa para revenda; B copo no CEASA; C entrega própria; D garrafa no balcão; E carrinho em ponto de fluxo."
+    ]
+  ]
 }

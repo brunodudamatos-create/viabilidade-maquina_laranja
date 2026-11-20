@@ -2,8 +2,10 @@
 <!--
   Simulador de viabilidade – suco de laranja natural (Cuiabá)
   Autor: Bruno Duda Dantas Matos
-  Versão: v3.1 (2026-11-20)
+  Versão: v3.2 (2026-11-20)
   Histórico de mudanças:
+    v3.2 – caixa "Como ler esta página" com todas as siglas e termos, frase
+           explicativa fixa em cada indicador e siglas por extenso.
     v3.1 – seção "O que falta enviar" no fim da página, com todos os itens
            pendentes para completar o estudo.
     v3.0 – abas de cenários de negócio: A garrafa para revenda (igual à v2.0),
@@ -30,6 +32,7 @@
     <h1>Simulador de viabilidade: suco de laranja natural em Cuiabá</h1>
     <p class="sub">Escolha o modelo de negócio e veja quanto é preciso vender para ele se pagar. Método: análise de risco de Hertz (Monte Carlo sobre o VPL), com sensibilidade em tornado.</p>
     <nav class="abas" id="abas" aria-label="Modelos de negócio"></nav>
+    <details class="glossario" id="glossario" open><summary>Como ler esta página: siglas e termos</summary><dl id="lista-glossario"></dl></details>
     <div id="painel-A">
     <div class="aviso" role="note">
       <strong>Atenção:</strong> giro por ponto, mix de tamanhos, margem do ponto, taxa de fechamento e vários custos são
@@ -53,7 +56,7 @@
           <input id="dias" type="range" min="15" max="30" step="1" value="26">
         </div>
         <div class="controle">
-          <label for="tma">Retorno exigido (TMA) <output id="tma-v"></output></label>
+          <label for="tma">Retorno exigido (TMA, taxa mínima de atratividade) <output id="tma-v"></output></label>
           <input id="tma" type="range" min="10" max="35" step="0.25" value="13.75">
         </div>
         <div class="controle">
@@ -74,24 +77,25 @@
       <div class="valor" id="heroi-vpl">–</div>
       <div class="faixa" id="heroi-faixa"></div>
       <div class="leitura" id="heroi-leitura"></div>
+      <div class="ajuda" id="heroi-ajuda"><strong>VPL (Valor Presente Líquido):</strong> quanto o negócio ganha a mais, em valores de hoje, do que deixar o mesmo dinheiro aplicado ao retorno exigido (TMA). <strong>Positivo</strong>: vale mais que aplicar. <strong>Negativo</strong>: seria melhor deixar aplicado.</div>
     </section>
 
     <h2>Quantos pontos, garrafas e contatos</h2>
     <section class="grade-cartoes" aria-label="Respostas diretas">
-      <div class="cartao"><div class="rotulo">Pontos de venda mínimos (lucro mensal ≥ 0)</div><div class="valor" id="k-pontos">–</div><div class="faixa" id="k-pontos-f"></div></div>
-      <div class="cartao"><div class="rotulo">Garrafas por dia no equilíbrio</div><div class="valor" id="k-garrafas">–</div><div class="faixa" id="k-garrafas-f"></div></div>
-      <div class="cartao"><div class="rotulo">Contatos de prospecção necessários</div><div class="valor" id="k-contatos">–</div><div class="faixa" id="k-contatos-f"></div></div>
+      <div class="cartao"><div class="rotulo">Pontos de venda mínimos (lucro mensal ≥ 0)</div><div class="valor" id="k-pontos">–</div><div class="faixa" id="k-pontos-f"></div><div class="ajuda">Quantos mercados, padarias e lanchonetes precisam comprar de você para o lucro do mês ficar acima de zero.</div></div>
+      <div class="cartao"><div class="rotulo">Garrafas por dia no equilíbrio</div><div class="valor" id="k-garrafas">–</div><div class="faixa" id="k-garrafas-f"></div><div class="ajuda">Quantas garrafas por dia (somando os três tamanhos) é preciso vender para não ter prejuízo.</div></div>
+      <div class="cartao"><div class="rotulo">Contatos de prospecção necessários</div><div class="valor" id="k-contatos">–</div><div class="faixa" id="k-contatos-f"></div><div class="ajuda">Quantos lugares você precisa visitar ou ligar para fechar essa quantidade de pontos de venda.</div></div>
     </section>
 
     <h2>Retorno do investimento</h2>
     <section class="grade-cartoes" aria-label="Indicadores de retorno">
-      <div class="cartao"><div class="rotulo">Chance de VPL negativo</div><div class="valor" id="k-vplneg">–</div><div class="faixa" id="k-vplneg-f"></div></div>
-      <div class="cartao"><div class="rotulo">Payback descontado</div><div class="valor" id="k-payback">–</div><div class="faixa" id="k-payback-f"></div></div>
-      <div class="cartao"><div class="rotulo">TIR</div><div class="valor" id="k-tir">–</div><div class="faixa" id="k-tir-f"></div></div>
-      <div class="cartao"><div class="rotulo">Exposição máxima de caixa</div><div class="valor" id="k-exp">–</div><div class="faixa" id="k-exp-f"></div></div>
-      <div class="cartao"><div class="rotulo">Lucro mensal em regime</div><div class="valor" id="k-regime">–</div><div class="faixa" id="k-regime-f"></div></div>
-      <div class="cartao"><div class="rotulo">Mês 1 (curva de aprendizado)</div><div class="valor" id="k-mes1">–</div><div class="faixa" id="k-mes1-f"></div></div>
-      <div class="cartao"><div class="rotulo">Investimento inicial</div><div class="valor" id="k-inv">–</div><div class="faixa" id="k-inv-f"></div></div>
+      <div class="cartao"><div class="rotulo">Chance de VPL negativo</div><div class="valor" id="k-vplneg">–</div><div class="faixa" id="k-vplneg-f"></div><div class="ajuda">Em quantas das simulações o VPL (Valor Presente Líquido) ficou negativo: o negócio rendeu menos do que deixar o dinheiro aplicado.</div></div>
+      <div class="cartao"><div class="rotulo">Payback descontado (meses para o dinheiro voltar)</div><div class="valor" id="k-payback">–</div><div class="faixa" id="k-payback-f"></div><div class="ajuda">Em quantos meses o dinheiro investido volta, já descontando o retorno exigido (TMA).</div></div>
+      <div class="cartao"><div class="rotulo">TIR (Taxa Interna de Retorno)</div><div class="valor" id="k-tir">–</div><div class="faixa" id="k-tir-f"></div><div class="ajuda">Quanto o negócio rende por ano, em %. Compare com o retorno exigido (TMA).</div></div>
+      <div class="cartao"><div class="rotulo">Exposição máxima de caixa</div><div class="valor" id="k-exp">–</div><div class="faixa" id="k-exp-f"></div><div class="ajuda">O máximo de dinheiro que você precisa ter disponível até o negócio começar a se pagar.</div></div>
+      <div class="cartao"><div class="rotulo">Lucro mensal em regime</div><div class="valor" id="k-regime">–</div><div class="faixa" id="k-regime-f"></div><div class="ajuda">Lucro do mês normal de operação (em regime), depois do aprendizado inicial. Negativo = prejuízo.</div></div>
+      <div class="cartao"><div class="rotulo">Mês 1 (curva de aprendizado)</div><div class="valor" id="k-mes1">–</div><div class="faixa" id="k-mes1-f"></div><div class="ajuda">Resultado do primeiro mês, com menos vendas e mais perda de fruta.</div></div>
+      <div class="cartao"><div class="rotulo">Investimento inicial</div><div class="valor" id="k-inv">–</div><div class="faixa" id="k-inv-f"></div><div class="ajuda">Dinheiro gasto antes de começar a vender (a máquina já existe e não entra).</div></div>
     </section>
 
     <h2>Qual tamanho vende mais (premissa, não dado)</h2>

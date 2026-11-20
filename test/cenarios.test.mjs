@@ -115,3 +115,9 @@ test('lista de pendências completa e sem dado interno', () => {
   }
   assert.ok(!/brasileira/i.test(JSON.stringify(dados.pendencias)));
 });
+
+test('glossário cobre as siglas usadas na página', () => {
+  const termos = dados.glossario.map((g) => g[0]).join(' | ');
+  for (const sigla of ['VPL', 'TIR', 'TMA', 'Selic', 'Payback', 'ROI', 'Monte Carlo', 'kWh', 'CEASA', 'MEI']) assert.ok(termos.includes(sigla), sigla);
+  for (const [t, def] of dados.glossario) assert.ok(t && def.length > 20);
+});

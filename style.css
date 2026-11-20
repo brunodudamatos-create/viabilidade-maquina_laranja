@@ -1,8 +1,9 @@
 /*
  * Estilo do simulador de suco de laranja (Cuiabá)
  * Autor: Bruno Duda Dantas Matos
- * Versão: v2.1 (2026-11-20)
+ * Versão: v2.2 (2026-11-20)
  * Histórico:
+ *   v2.2 – glossário e frases de ajuda sob os indicadores.
  *   v2.1 – abas dos cenários, cores das categorias de custo, valores negativos na tabela de comparação.
  *   v2.0 – tornado, texto de leitura, informação de equipe, caixa de seleção da margem.
  *   v1.0 – primeira versão (tema claro e escuro, paleta validada).
@@ -128,6 +129,14 @@ summary { cursor: pointer; color: var(--tinta-2); }
 ul.lacunas { padding-left: 20px; color: var(--tinta-2); }
 a { color: var(--serie); }
 footer { margin-top: 40px; color: var(--tinta-3); font-size: 0.8rem; }
+.ajuda { color: var(--tinta-2); font-size: 0.8rem; line-height: 1.35; margin-top: 6px; }
+.heroi .ajuda { font-size: 0.9rem; max-width: 70ch; margin-top: 8px; }
+.glossario { background: var(--superficie); border: 1px solid var(--borda); border-radius: 12px; padding: 12px 16px; margin: 12px 0; }
+.glossario summary { cursor: pointer; font-weight: 600; color: var(--tinta); }
+.glossario dl { display: grid; grid-template-columns: 1fr; gap: 2px 0; margin: 10px 0 0; font-size: 0.88rem; }
+.glossario dt { font-weight: 650; margin-top: 8px; }
+.glossario dd { margin: 0; color: var(--tinta-2); }
+@media (min-width: 760px) { .glossario dl { grid-template-columns: 240px 1fr; gap: 6px 16px; } .glossario dt { margin-top: 0; } }
 .abas { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
 .aba {
   font: inherit; font-size: 0.9rem; cursor: pointer;

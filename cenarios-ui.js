@@ -2,8 +2,9 @@
  * Interface dos cenários de negócio (abas A a E e comparação)
  * Autor: Bruno Duda Dantas Matos
  *
- * Versão: v3.1  (2026-11-20)
+ * Versão: v3.2  (2026-11-20)
  * Histórico de mudanças:
+ *   v3.2 – glossário ("Como ler esta página"), frase explicativa em cada indicador e siglas por extenso.
  *   v3.1 – desenha a seção "O que falta enviar" (lista de pendências) no fim da página.
  *   v3.0 – arquivo novo. Abas para escolher o modelo de negócio (A garrafa para
  *          revenda, B copo no CEASA, C entrega própria, D garrafa no balcão,
@@ -109,7 +110,7 @@ function montarCenario(cen) {
           <input id="c-fam" type="range" min="0" max="2" step="1" value="${st.fam}"></div>
         <div class="controle"><label for="c-dias">Dias de operação por mês <output id="c-dias-v"></output></label>
           <input id="c-dias" type="range" min="15" max="30" step="1" value="${st.dias}"></div>
-        <div class="controle"><label for="c-tma">Retorno exigido (TMA) <output id="c-tma-v"></output></label>
+        <div class="controle"><label for="c-tma">Retorno exigido (TMA, taxa mínima de atratividade) <output id="c-tma-v"></output></label>
           <input id="c-tma" type="range" min="10" max="35" step="0.25" value="${st.tma}"></div>
         <div class="controle"><label for="c-hor">Horizonte da análise <output id="c-hor-v"></output></label>
           <input id="c-hor" type="range" min="12" max="36" step="6" value="${st.hor}"></div>
@@ -121,23 +122,24 @@ function montarCenario(cen) {
       <div class="valor" id="c-heroi-vpl">–</div>
       <div class="faixa" id="c-heroi-faixa"></div>
       <div class="leitura" id="c-heroi-leitura"></div>
+      <div class="ajuda"><strong>VPL (Valor Presente Líquido):</strong> quanto o negócio ganha a mais, em valores de hoje, do que deixar o mesmo dinheiro aplicado ao retorno exigido (TMA). <strong>Positivo</strong>: vale mais que aplicar. <strong>Negativo</strong>: seria melhor deixar aplicado.</div>
     </section>
     <h2>Quanto preciso vender</h2>
     <section class="grade-cartoes">
-      <div class="cartao"><div class="rotulo">${esc(un[0].toUpperCase() + un.slice(1))} por dia para empatar</div><div class="valor" id="c-k-eq">–</div><div class="faixa" id="c-k-eq-f"></div></div>
-      <div class="cartao"><div class="rotulo">Pessoas necessárias</div><div class="valor" id="c-k-pes">–</div><div class="faixa" id="c-k-pes-f"></div></div>
-      <div class="cartao"><div class="rotulo">Suco por dia em regime</div><div class="valor" id="c-k-lit">–</div><div class="faixa" id="c-k-lit-f"></div></div>
-      <div class="cartao"><div class="rotulo">Energia elétrica por mês</div><div class="valor" id="c-k-en">–</div><div class="faixa" id="c-k-en-f"></div></div>
+      <div class="cartao"><div class="rotulo">${esc(un[0].toUpperCase() + un.slice(1))} por dia para empatar</div><div class="valor" id="c-k-eq">–</div><div class="faixa" id="c-k-eq-f"></div><div class="ajuda">Quanto precisa vender por dia para o lucro do mês ficar em zero (ponto de equilíbrio). Abaixo disso é prejuízo.</div></div>
+      <div class="cartao"><div class="rotulo">Pessoas necessárias</div><div class="valor" id="c-k-pes">–</div><div class="faixa" id="c-k-pes-f"></div><div class="ajuda">Quantas pessoas a operação exige nesse volume; parte pode ser da família, sem salário.</div></div>
+      <div class="cartao"><div class="rotulo">Suco por dia em regime</div><div class="valor" id="c-k-lit">–</div><div class="faixa" id="c-k-lit-f"></div><div class="ajuda">Quanto suco é preciso espremer por dia, incluindo o que se perde por validade.</div></div>
+      <div class="cartao"><div class="rotulo">Energia elétrica por mês</div><div class="valor" id="c-k-en">–</div><div class="faixa" id="c-k-en-f"></div><div class="ajuda">Conta de luz atribuída ao suco: máquina e refrigeração (kWh vezes a tarifa).</div></div>
     </section>
     <h2>Retorno do investimento</h2>
     <section class="grade-cartoes">
-      <div class="cartao"><div class="rotulo">Chance de VPL negativo</div><div class="valor" id="c-k-neg">–</div><div class="faixa" id="c-k-neg-f"></div></div>
-      <div class="cartao"><div class="rotulo">Payback descontado</div><div class="valor" id="c-k-pb">–</div><div class="faixa" id="c-k-pb-f"></div></div>
-      <div class="cartao"><div class="rotulo">TIR</div><div class="valor" id="c-k-tir">–</div><div class="faixa" id="c-k-tir-f"></div></div>
-      <div class="cartao"><div class="rotulo">Exposição máxima de caixa</div><div class="valor" id="c-k-exp">–</div><div class="faixa" id="c-k-exp-f"></div></div>
-      <div class="cartao"><div class="rotulo">Lucro mensal em regime</div><div class="valor" id="c-k-reg">–</div><div class="faixa" id="c-k-reg-f"></div></div>
-      <div class="cartao"><div class="rotulo">Mês 1 (curva de aprendizado)</div><div class="valor" id="c-k-m1">–</div><div class="faixa" id="c-k-m1-f"></div></div>
-      <div class="cartao"><div class="rotulo">Investimento inicial</div><div class="valor" id="c-k-inv">–</div><div class="faixa" id="c-k-inv-f"></div></div>
+      <div class="cartao"><div class="rotulo">Chance de VPL negativo</div><div class="valor" id="c-k-neg">–</div><div class="faixa" id="c-k-neg-f"></div><div class="ajuda">Em quantas das simulações o VPL (Valor Presente Líquido) ficou negativo: o negócio rendeu menos do que deixar o dinheiro aplicado.</div></div>
+      <div class="cartao"><div class="rotulo">Payback descontado (meses para o dinheiro voltar)</div><div class="valor" id="c-k-pb">–</div><div class="faixa" id="c-k-pb-f"></div><div class="ajuda">Em quantos meses o dinheiro investido volta, já descontando o retorno exigido (TMA).</div></div>
+      <div class="cartao"><div class="rotulo">TIR (Taxa Interna de Retorno)</div><div class="valor" id="c-k-tir">–</div><div class="faixa" id="c-k-tir-f"></div><div class="ajuda">Quanto o negócio rende por ano, em %. Compare com o retorno exigido (TMA).</div></div>
+      <div class="cartao"><div class="rotulo">Exposição máxima de caixa</div><div class="valor" id="c-k-exp">–</div><div class="faixa" id="c-k-exp-f"></div><div class="ajuda">O máximo de dinheiro que você precisa ter disponível até o negócio começar a se pagar.</div></div>
+      <div class="cartao"><div class="rotulo">Lucro mensal em regime</div><div class="valor" id="c-k-reg">–</div><div class="faixa" id="c-k-reg-f"></div><div class="ajuda">Lucro do mês normal de operação (em regime), depois do aprendizado inicial. Negativo = prejuízo.</div></div>
+      <div class="cartao"><div class="rotulo">Mês 1 (curva de aprendizado)</div><div class="valor" id="c-k-m1">–</div><div class="faixa" id="c-k-m1-f"></div><div class="ajuda">Resultado do primeiro mês, com menos vendas e mais perda de fruta.</div></div>
+      <div class="cartao"><div class="rotulo">Investimento inicial</div><div class="valor" id="c-k-inv">–</div><div class="faixa" id="c-k-inv-f"></div><div class="ajuda">Dinheiro gasto antes de começar a vender (a máquina já existe e não entra).</div></div>
     </section>
     <h2>Para onde vai cada real de venda</h2>
     <section class="cartao">
@@ -216,7 +218,7 @@ function atualizarCen() {
 
   const r = simularCen(dados, cen, ctl, 3000);
   const h = $('c-heroi-vpl');
-  $('c-heroi-rotulo').textContent = `VPL em ${ctl.horizonte} meses, a ${num2.format(ctl.tmaAa * 100)}% ao ano (mediana)`;
+  $('c-heroi-rotulo').textContent = `VPL (Valor Presente Líquido) em ${ctl.horizonte} meses, a ${num2.format(ctl.tmaAa * 100)}% ao ano (mediana)`;
   h.textContent = brl0.format(r.vpl.p50);
   h.classList.toggle('negativo', r.vpl.p50 < 0);
   $('c-heroi-faixa').textContent = `80% dos cenários ficam entre ${brl0.format(r.vpl.p10)} e ${brl0.format(r.vpl.p90)}`;
@@ -495,6 +497,11 @@ function atualizarComparar() {
   $('k-nota').textContent = 'O volume padrão de cada cenário é um palpite, não um dado medido: o que esta tabela mostra com mais firmeza é o empate (quanto precisa vender). O Cenário A ainda traz a energia dentro dos insumos de R$ 0,50 por litro; nos demais ela é explícita. Preço, demanda, aluguel e investimento dos cenários B a E têm baixa confiança.';
 }
 
+/* ---------- Glossário ---------- */
+function desenharGlossario() {
+  $('lista-glossario').innerHTML = dados.glossario.map(([t, def]) => `<dt>${esc(t)}</dt><dd>${esc(def)}</dd>`).join('');
+}
+
 /* ---------- Pendências ---------- */
 function desenharPendencias() {
   $('pend-aviso').textContent = dados.pendencias_aviso;
@@ -511,6 +518,7 @@ async function iniciar() {
   } catch (e) { return; }
   montarAbas();
   desenharPendencias();
+  desenharGlossario();
   const h = (location.hash || '').replace('#', '');
   const valida = h === 'comparar' || (h && cenarioPorLetra(h));
   irPara(valida ? h : 'A');

@@ -1,8 +1,9 @@
 /*
  * Interface do simulador de suco de laranja (Cuiabá)
  * Autor: Bruno Duda Dantas Matos
- * Versão: v2.1 (2026-11-20)
+ * Versão: v2.2 (2026-11-20)
  * Histórico de mudanças:
+ *   v2.2 – rótulo do resultado com a sigla por extenso (VPL, Valor Presente Líquido). Só texto.
  *   v2.1 – redesenha os gráficos quando a aba do Cenário A volta a ficar visível
  *          (evento 'painel-A-visivel'). Nenhuma conta foi alterada.
  *   v2.0 – funil de pontos de venda e garrafas, mix de tamanhos, VPL/TIR/payback,
@@ -275,7 +276,7 @@ function atualizar() {
 
   const r = simular(dados, ctl, 3000);
   const heroi = $('heroi-vpl');
-  $('heroi-rotulo').textContent = `VPL em ${ctl.horizonte} meses, a ${num2.format(ctl.tmaAa * 100)}% ao ano (mediana)`;
+  $('heroi-rotulo').textContent = `VPL (Valor Presente Líquido) em ${ctl.horizonte} meses, a ${num2.format(ctl.tmaAa * 100)}% ao ano (mediana)`;
   heroi.textContent = brl0.format(r.vpl.p50);
   heroi.classList.toggle('negativo', r.vpl.p50 < 0);
   $('heroi-faixa').textContent = `80% dos cenários ficam entre ${brl0.format(r.vpl.p10)} e ${brl0.format(r.vpl.p90)}`;
