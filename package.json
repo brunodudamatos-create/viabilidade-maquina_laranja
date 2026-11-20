@@ -6,7 +6,7 @@
   "description": "Simulador de viabilidade de suco de laranja natural em Cuiabá (Monte Carlo).",
   "author": "Bruno Duda Dantas Matos",
   "scripts": {
-    "test": "node --test test/sim.test.mjs",
+    "test": "node --test test/sim.test.mjs test/cenarios.test.mjs",
     "start": "python3 -m http.server 8080"
   }
 }

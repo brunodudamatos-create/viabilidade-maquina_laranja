@@ -2,8 +2,13 @@
 <!--
   Simulador de viabilidade – suco de laranja natural (Cuiabá)
   Autor: Bruno Duda Dantas Matos
-  Versão: v2.0 (2026-11-16)
+  Versão: v3.0 (2026-11-20)
   Histórico de mudanças:
+    v3.0 – abas de cenários de negócio: A garrafa para revenda (igual à v2.0),
+           B copo no CEASA, C entrega própria, D garrafa no balcão, E carrinho,
+           e comparação. Cada cenário com seus filtros e o resultado principal
+           em copos ou pedidos por dia para empatar. Energia elétrica e
+           manutenção explícitas nos cenários B a E.
     v2.0 – funil de pontos de venda, mix de tamanhos (300 ml, 500 ml, 1 L),
            VPL, TIR, payback descontado, exposição de caixa, tornado, margem do
            ponto, métodos e referências.
@@ -21,7 +26,9 @@
 <body>
   <main class="pagina">
     <h1>Simulador de viabilidade: suco de laranja natural em Cuiabá</h1>
-    <p class="sub">Quantos pontos de venda e quantas garrafas precisam existir para o negócio se pagar. Método: análise de risco de Hertz (Monte Carlo sobre o VPL), com sensibilidade em tornado.</p>
+    <p class="sub">Escolha o modelo de negócio e veja quanto é preciso vender para ele se pagar. Método: análise de risco de Hertz (Monte Carlo sobre o VPL), com sensibilidade em tornado.</p>
+    <nav class="abas" id="abas" aria-label="Modelos de negócio"></nav>
+    <div id="painel-A">
     <div class="aviso" role="note">
       <strong>Atenção:</strong> giro por ponto, mix de tamanhos, margem do ponto, taxa de fechamento e vários custos são
       <strong>premissas sem dado</strong> (confiança <em>baixa</em>) e estão marcados na tabela de dados.
@@ -133,6 +140,8 @@
 
     <h2>O que ainda falta</h2>
     <ul class="lacunas" id="lacunas"></ul>
+    </div>
+    <div id="painel-cen" hidden></div>
 
     <footer>
       <div id="rodape-versao"></div>
@@ -140,5 +149,6 @@
     </footer>
   </main>
   <script type="module" src="app.js"></script>
+  <script type="module" src="cenarios-ui.js"></script>
 </body>
 </html>

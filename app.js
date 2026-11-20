@@ -1,8 +1,10 @@
 /*
  * Interface do simulador de suco de laranja (Cuiabá)
  * Autor: Bruno Duda Dantas Matos
- * Versão: v2.0 (2026-11-16)
+ * Versão: v2.1 (2026-11-20)
  * Histórico de mudanças:
+ *   v2.1 – redesenha os gráficos quando a aba do Cenário A volta a ficar visível
+ *          (evento 'painel-A-visivel'). Nenhuma conta foi alterada.
  *   v2.0 – funil de pontos de venda e garrafas, mix de tamanhos, VPL/TIR/payback,
  *          exposição de caixa, tornado, margem do ponto, tabela por TMA, métodos
  *          e referências. Gráficos: VPL × pontos, distribuição do VPL e tornado.
@@ -390,6 +392,7 @@ async function iniciar() {
   window.addEventListener('resize', () => {
     if (window.innerWidth !== larguraAnterior) { larguraAnterior = window.innerWidth; agendar(); }
   });
+  window.addEventListener('painel-A-visivel', agendar);
   atualizar();
 }
 iniciar();

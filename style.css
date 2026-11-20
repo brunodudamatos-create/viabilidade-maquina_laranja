@@ -1,8 +1,9 @@
 /*
  * Estilo do simulador de suco de laranja (Cuiabá)
  * Autor: Bruno Duda Dantas Matos
- * Versão: v2.0 (2026-11-16)
+ * Versão: v2.1 (2026-11-20)
  * Histórico:
+ *   v2.1 – abas dos cenários, cores das categorias de custo, valores negativos na tabela de comparação.
  *   v2.0 – tornado, texto de leitura, informação de equipe, caixa de seleção da margem.
  *   v1.0 – primeira versão (tema claro e escuro, paleta validada).
  */
@@ -21,6 +22,7 @@
   --bom: #006300;
   --aviso-fundo: #fff4d6;
   --aviso-tinta: #5a3d00;
+  --c1: #2a78d6; --c2: #eb6834; --c3: #1baf7a; --c4: #eda100; --c5: #e87ba4; --c6: #6250d6;
 }
 @media (prefers-color-scheme: dark) {
   :root {
@@ -38,6 +40,7 @@
     --bom: #0ca30c;
     --aviso-fundo: #3a2e0c;
     --aviso-tinta: #f3d58a;
+    --c1: #3987e5; --c2: #d95926; --c3: #199e70; --c4: #c98500; --c5: #d55181; --c6: #9085e9;
   }
 }
 * { box-sizing: border-box; }
@@ -125,6 +128,16 @@ summary { cursor: pointer; color: var(--tinta-2); }
 ul.lacunas { padding-left: 20px; color: var(--tinta-2); }
 a { color: var(--serie); }
 footer { margin-top: 40px; color: var(--tinta-3); font-size: 0.8rem; }
+.abas { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+.aba {
+  font: inherit; font-size: 0.9rem; cursor: pointer;
+  background: var(--superficie); color: var(--tinta);
+  border: 1px solid var(--borda); border-radius: 999px; padding: 8px 14px;
+}
+.aba[aria-pressed="true"] { background: var(--serie); border-color: var(--serie); color: #fff; font-weight: 600; }
+.aba:focus-visible { outline: 2px solid var(--serie); outline-offset: 2px; }
+td.num.neg { color: var(--perda); }
+[hidden] { display: none !important; }
 @media (max-width: 520px) {
   .heroi .valor { font-size: 2.4rem; }
   h1 { font-size: 1.25rem; }

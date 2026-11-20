@@ -4,6 +4,20 @@
 
 Mudanças pequenas aumentam o decimal (v1.0 → v1.1). Mudanças estruturais aumentam o número inteiro (v1.x → v2.0).
 
+## v3.0 – 2026-11-20
+
+Mudança estrutural: o simulador passa a ter **cenários de negócio clicáveis** (abas), para encontrar em qual modelo o suco de laranja se paga.
+
+- Aba **A · Garrafa para revenda**: o simulador da v2.0, sem nenhuma alteração de cálculo (testes provam o mesmo resultado).
+- **B · Copo no CEASA**, **C · Entrega própria**, **D · Garrafa no balcão**, **E · Carrinho em ponto de fluxo**: venda direta, sem intermediário.
+- Cada cenário tem os mesmos filtros do A (equipe mínima, dias de operação, retorno exigido, horizonte) mais a demanda por dia (copos, pedidos ou vendas) e as **pessoas sem salário (família)**.
+- Resultado principal: **quantos copos ou pedidos por dia precisam ser vendidos para empatar**, com VPL, TIR, payback, exposição de caixa, tornado, curva VPL × demanda e distribuição.
+- Gráfico "para onde vai cada real de venda" (fruta, embalagem, energia/água/limpeza, entrega/impostos, equipe, ponto/fixos).
+- **Energia elétrica explícita** (kWh por litro, refrigeração e tarifa), **manutenção da máquina**, água e limpeza, aluguel do ponto, divulgação, taxa de pagamento e entrega: valores provisórios, de baixa confiança, até chegar a placa da máquina e a conta de luz.
+- Aba **Comparar todos** (A a E lado a lado) e riscos e "como validar" em cada cenário.
+- Novos arquivos: `cenarios.js` (motor) e `cenarios-ui.js` (interface). `sim.js` não foi alterado; `app.js` ganhou só o redesenho ao voltar para a aba A (v2.1).
+- Testes automáticos: 31 (9 novos, com conta manual do cenário B e prova de que o A não mudou).
+
 ## v2.0 – 2026-11-16
 
 Mudança estrutural: o simulador deixa de partir de "litros por dia" e passa a partir de **pontos de venda**.
